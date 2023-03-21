@@ -13,8 +13,7 @@ def get_latest_date():
     for file in files:
         file_name = file.replace(path, '').replace(extension, '')
         dates.append(datetime.strptime(file_name, '%d-%m-%Y').date())
-    youngest_date = min(dates)
-    return youngest_date
+    return min(dates) if dates else date.today()
 
 
 def daterange(start_date, end_date, step=1):
