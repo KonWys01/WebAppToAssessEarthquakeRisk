@@ -12,7 +12,7 @@ def get_latest_date():
     dates = []
     for file in files:
         file_name = file.replace(path, '').replace(extension, '')
-        dates.append(datetime.strptime(file_name, '%d-%m-%Y').date())
+        dates.append(datetime.strptime(file_name, '%Y-%m-%d').date())
     return min(dates) if dates else date.today()
 
 
@@ -26,19 +26,17 @@ def daterange(start_date, end_date, step=1):
 
 
 def download_data(url: str):
-    starting_date = get_latest_date()
-
+    starting_date = get_latest_date() - timedelta(1)
     for single_date in daterange(starting_date, starting_date - timedelta(days=365), -1):
         try:
             earthquake = requests.get(url + f'&starttime={single_date}&endtime={single_date + timedelta(1)}')
             print(f'earthquake for {single_date} was downloaded')
             data = earthquake.content
-            with open(f'downloaded_data/{single_date.day}-{single_date.month}-{single_date.year}.geojson', 'wb') as f:
-                # geojson.dump(earthquake, f)
+            with open(f'downloaded_data/{single_date}.geojson', 'wb') as f:
                 f.write(data)
             sleep(10)
-        except:
-            print(f'{single_date}')
+        except Exception as e:
+            print(f'{single_date}', str(e))
             continue
 
 
