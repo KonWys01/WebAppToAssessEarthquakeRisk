@@ -1,6 +1,8 @@
 venv
 .idea
 
+downloaded_data/
+
 frontend/.idea
 frontend/.vscode
 frontend/node_modules
