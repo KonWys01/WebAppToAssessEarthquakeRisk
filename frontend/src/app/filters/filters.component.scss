@@ -1,0 +1,19 @@
+.mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+.example-container {
+  position: absolute;
+  top: 0px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+}
+
+.example-sidenav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  background: rgba(255, 0, 0, 0.5);
+  border: black;
+}
