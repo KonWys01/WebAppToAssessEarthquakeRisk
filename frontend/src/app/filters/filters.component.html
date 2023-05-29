@@ -1,4 +1,4 @@
-<mat-sidenav-container class="example-container">
+<mat-sidenav-container class="example-container" [hasBackdrop]="false">
     <mat-sidenav #sidenav mode="over" opened class="example-sidenav">
       <mat-accordion>
       <mat-expansion-panel hideToggle>
@@ -24,13 +24,21 @@
         </mat-expansion-panel-header>
         <p>I'm visible because I am open</p>
       </mat-expansion-panel>
+        <button class="openfilter" mat-button (click)="sidenav.toggle()">
+        <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>
+        <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>
+      </button>
     </mat-accordion>
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <button mat-button (click)="sidenav.toggle()">
+      <button class="openfilter" mat-button (click)="sidenav.toggle()">
         <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>
         <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>
       </button>
     </mat-sidenav-content>
   </mat-sidenav-container>
+<!--<button class="openfilter" mat-button (click)="sidenav.toggle()">-->
+<!--        <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>-->
+<!--        <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>-->
+<!--      </button>-->

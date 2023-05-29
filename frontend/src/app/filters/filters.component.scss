@@ -1,6 +1,7 @@
 .mat-mdc-form-field + .mat-mdc-form-field {
   margin-left: 8px;
 }
+
 .example-container {
   position: absolute;
   top: 0px;
@@ -13,7 +14,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 400px;
-  background: rgb(148, 76, 222);
+  //width: 400px;
+  height: 100%;
+  //background: rgb(148, 76, 222);
   border: black;
+  background-color: transparent !important;
+}
+
+.openfilter {
+  //outline-color: black;
+  //border: black;
+  //border-radius: 10px;
+}
+
+.mat-sidenav-backdrop.mat-sidenav-shown{
+    background-color: transparent !important;
+}
+
+//.mat-drawer {
+//  background-color: transparent !important;
+//}
+::ng-deep .mat-sidenav-backdrop.mat-sidenav-shown {
+    display: none;
 }

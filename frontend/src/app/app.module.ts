@@ -5,7 +5,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MapComponent } from './map/map.component';
+import { EarthquakeMapComponent } from './earthquake-map/earthquake-map.component';
 import { FiltersComponent } from './filters/filters.component';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [AppComponent, MapComponent, FiltersComponent],
+  declarations: [AppComponent, EarthquakeMapComponent, FiltersComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -29,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
+    CommonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
