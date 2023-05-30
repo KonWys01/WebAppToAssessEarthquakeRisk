@@ -14,26 +14,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  //width: 400px;
   height: 100%;
-  //background: rgb(148, 76, 222);
   border: black;
   background-color: transparent !important;
-}
-
-.openfilter {
-  //outline-color: black;
-  //border: black;
-  //border-radius: 10px;
 }
 
 .mat-sidenav-backdrop.mat-sidenav-shown{
     background-color: transparent !important;
 }
 
-//.mat-drawer {
-//  background-color: transparent !important;
-//}
-::ng-deep .mat-sidenav-backdrop.mat-sidenav-shown {
-    display: none;
+::ng-deep .mat-sidenav-container,
+::ng-deep .mat-sidenav-content {
+  background: none;
+}
+
+::ng-deep .mat-drawer-inner-container {
+  background-color: rgba(0, 0, 0,0.7);
 }
