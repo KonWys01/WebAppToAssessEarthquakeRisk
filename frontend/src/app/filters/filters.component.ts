@@ -10,4 +10,8 @@ import { ViewEncapsulation } from '@angular/core';
 export class FiltersComponent {
   @Input() hasBackdrop: any;
   panelOpenState = false;
+  constructor() {}
+  openDialog(): void {
+    console.log('image clicked!!!');
+  }
 }

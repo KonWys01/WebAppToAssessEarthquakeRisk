@@ -31,3 +31,54 @@
 ::ng-deep .mat-drawer-inner-container {
   background-color: rgba(0, 0, 0,0.7);
 }
+
+.mat-mdc-form-field {
+  width: 100px;
+}
+
+.coordinates {
+  border-radius: 10px;
+  border:2px solid black;
+  padding: 15px;
+  height: 200px;
+}
+
+#ymax {
+  position: absolute;
+  right: 37.5%;
+}
+
+#xmin {
+  position: absolute;
+  top: 50%;
+}
+
+#xmax {
+  position: absolute;
+  top: 50%;
+  right: 10%;
+}
+
+#ymin {
+  position: absolute;
+  right: 37.5%;
+  bottom: 3%;
+}
+
+.latitude {
+  justify-content: space-between;
+}
+
+.map-picker {
+  border-radius: 10px;
+  border:2px solid black;
+  position: absolute;
+  top: 47%;
+  left: 37.5%;
+  overflow: hidden;
+}
+
+#world-map {
+  height: 65px;
+}
+
