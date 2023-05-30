@@ -73,6 +73,32 @@
           </mat-form-field>
         </div>
       </mat-expansion-panel>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Magnitude:
+          </mat-panel-title>
+          <mat-panel-description>
+            Seismic level of earthquake
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-slider min="200" max="500">
+          <input value="300" matSliderStartThumb>
+          <input value="400" matSliderEndThumb>
+        </mat-slider>
+      </mat-expansion-panel>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Timestamp:
+          </mat-panel-title>
+          <mat-panel-description>
+            Timeframe of earthquakes
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
 
 
       <button class="openfilter" mat-button (click)="sidenav.toggle()">

@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
@@ -35,6 +36,7 @@ import { FiltersComponent } from './filters/filters.component';
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSliderModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
