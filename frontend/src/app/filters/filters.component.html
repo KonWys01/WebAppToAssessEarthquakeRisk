@@ -1,121 +1,114 @@
-<mat-sidenav-container class="example-container" [hasBackdrop]="false">
+<div class="sidenav-with-button">
+  <mat-sidenav-container class="example-container" [hasBackdrop]="false">
     <mat-sidenav #sidenav mode="over" opened class="example-sidenav">
       <mat-accordion>
-      <mat-expansion-panel hideToggle>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            This is the expansion title
-          </mat-panel-title>
-          <mat-panel-description>
-            This is a summary of the content
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>This is the primary content of the panel.</p>
-      </mat-expansion-panel>
-      <mat-expansion-panel (opened)="panelOpenState = true"
-                           (closed)="panelOpenState = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Self aware panel
-          </mat-panel-title>
-          <mat-panel-description>
-            Currently I am {{panelOpenState ? 'open' : 'closed'}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>I'm visible because I am open</p>
-      </mat-expansion-panel>
-      <mat-expansion-panel (opened)="panelOpenState = true"
-                           (closed)="panelOpenState = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            ID:
-          </mat-panel-title>
-          <mat-panel-description>
-            ID of the earthquake
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>Provide ID of the earthquake you want to look for!</p>
-      </mat-expansion-panel>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              This is the expansion title
+            </mat-panel-title>
+            <mat-panel-description>
+              This is a summary of the content
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>This is the primary content of the panel.</p>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Self aware panel
+            </mat-panel-title>
+            <mat-panel-description>
+              Currently I am {{panelOpenState ? 'open' : 'closed'}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              ID:
+            </mat-panel-title>
+            <mat-panel-description>
+              ID of the earthquake
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>Provide ID of the earthquake you want to look for!</p>
+        </mat-expansion-panel>
 
-      <mat-expansion-panel (opened)="panelOpenState = true"
-                           (closed)="panelOpenState = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Area
-          </mat-panel-title>
-          <mat-panel-description>
-            Filter by rectangle using: <br>
-            x_min, x_max, y_min, y_max
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Area
+            </mat-panel-title>
+            <mat-panel-description>
+              Filter by rectangle using: <br>
+              x_min, x_max, y_min, y_max
 
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="coordinates">
-          <mat-form-field id="ymax">
-            <mat-label>Y_max</mat-label>
-            <input matInput>
-          </mat-form-field>
-          <div class="latitude">
-            <mat-form-field id="xmin">
-              <mat-label>X_min</mat-label>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="coordinates">
+            <mat-form-field id="ymax">
+              <mat-label>Y_max</mat-label>
               <input matInput>
             </mat-form-field>
-            <div class="map-picker" (click)="openDialog()">
-              <img src="assets/world-map-transparent.png" id="world-map">
+            <div class="latitude">
+              <mat-form-field id="xmin">
+                <mat-label>X_min</mat-label>
+                <input matInput>
+              </mat-form-field>
+              <div class="map-picker" (click)="openDialog()">
+                <img src="assets/world-map-transparent.png" id="world-map" alt="world-map">
+              </div>
+              <mat-form-field id="xmax">
+                <mat-label>X_max</mat-label>
+                <input matInput>
+              </mat-form-field>
             </div>
-            <mat-form-field id="xmax">
-              <mat-label>X_max</mat-label>
+            <mat-form-field id="ymin">
+              <mat-label>Y_min</mat-label>
               <input matInput>
             </mat-form-field>
           </div>
-          <mat-form-field id="ymin">
-            <mat-label>Y_min</mat-label>
-            <input matInput>
-          </mat-form-field>
-        </div>
-      </mat-expansion-panel>
-      <mat-expansion-panel (opened)="panelOpenState = true"
-                           (closed)="panelOpenState = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Magnitude:
-          </mat-panel-title>
-          <mat-panel-description>
-            Seismic level of earthquake
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <mat-slider min="200" max="500">
-          <input value="300" matSliderStartThumb>
-          <input value="400" matSliderEndThumb>
-        </mat-slider>
-      </mat-expansion-panel>
-      <mat-expansion-panel (opened)="panelOpenState = true"
-                           (closed)="panelOpenState = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Timestamp:
-          </mat-panel-title>
-          <mat-panel-description>
-            Timeframe of earthquakes
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Magnitude:
+            </mat-panel-title>
+            <mat-panel-description>
+              Seismic level of earthquake
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-slider min="200" max="500">
+            <input value="300" matSliderStartThumb>
+            <input value="400" matSliderEndThumb>
+          </mat-slider>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Timestamp:
+            </mat-panel-title>
+            <mat-panel-description>
+              Timeframe of earthquakes
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
 
-
-      <button class="openfilter" mat-button (click)="sidenav.toggle()">
-        <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>
-        <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>
-      </button>
-    </mat-accordion>
+      </mat-accordion>
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <button class="openfilter" mat-button (click)="sidenav.toggle()">
+      <button class="open-filter" mat-button (click)="sidenav.toggle()">
         <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>
         <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>
       </button>
     </mat-sidenav-content>
   </mat-sidenav-container>
-<!--<button class="openfilter" mat-button (click)="sidenav.toggle()">-->
-<!--        <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>-->
-<!--        <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>-->
-<!--      </button>-->
+</div>
