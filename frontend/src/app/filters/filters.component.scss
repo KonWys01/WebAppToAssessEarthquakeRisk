@@ -12,7 +12,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  float: left;
+  width: 43vh;
 }
 
 .example-sidenav {
@@ -32,6 +32,12 @@
 ::ng-deep .mat-sidenav-content {
   background: none;
 }
+
+::ng-deep .mat-sidenav-content {
+  display: none !important;
+  background: none;
+}
+
 
 ::ng-deep .mat-drawer-inner-container {
   background-color: rgba(0, 0, 0,0.7);

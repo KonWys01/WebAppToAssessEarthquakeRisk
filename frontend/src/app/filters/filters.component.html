@@ -103,12 +103,9 @@
 
       </mat-accordion>
     </mat-sidenav>
-
-    <mat-sidenav-content>
-      <button class="open-filter" mat-button (click)="sidenav.toggle()">
-        <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>
-        <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>
-      </button>
-    </mat-sidenav-content>
   </mat-sidenav-container>
+  <button class="open-filter" mat-button (click)="sidenav.toggle()">
+    <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>
+    <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>
+  </button>
 </div>
