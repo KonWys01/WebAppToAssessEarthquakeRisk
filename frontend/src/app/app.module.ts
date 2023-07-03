@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +40,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatInputModule,
     MatSliderModule,
     MatDialogModule,
+    LeafletMarkerClusterModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

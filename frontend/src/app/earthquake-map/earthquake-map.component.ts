@@ -1,5 +1,8 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
+
 import * as L from 'leaflet';
+import 'leaflet.markercluster';
+
 import { EarthquakeService } from '../services/earthquake.service';
 import { EarthquakeCoordinates } from '../models/earthquake.model';
 
@@ -39,14 +42,17 @@ export class EarthquakeMapComponent implements AfterViewInit, OnInit {
   }
 
   private addEarthquakes(): void {
+    let markers = new L.MarkerClusterGroup({});
     this.earthquakes.forEach((eq) => {
-      L.circle([eq.y as number, eq.x as number], {
+      const marker = L.circleMarker([eq.y as number, eq.x as number], {
         stroke: false,
         fillOpacity: 0.8,
         fillColor: this.circleColor(eq.h as number),
         radius: this.circleSize(eq.mag as number),
-      }).addTo(this.map);
+      });
+      markers.addLayer(marker);
     });
+    this.map.addLayer(markers);
   }
 
   ngAfterViewInit(): void {
@@ -57,20 +63,18 @@ export class EarthquakeMapComponent implements AfterViewInit, OnInit {
   circleColor(depth: number): string {
     if (depth < 10) {
       return '#FFEDA0';
-    } else if (depth < 10) {
-      return '#e8ac5d';
     } else if (depth < 30) {
-      return '#b77309';
+      return '#FEB24C';
     } else if (depth < 50) {
-      return '#c93116';
+      return '#FD8D3C';
     } else if (depth < 70) {
-      return '#7e1807';
+      return '#E31A1C';
     } else {
-      return '#410b01';
+      return '#570707';
     }
   }
 
   circleSize(mag: number): number {
-    return mag * 60000;
+    return mag * 5;
   }
 }
