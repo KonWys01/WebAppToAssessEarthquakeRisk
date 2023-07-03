@@ -19,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EarthquakeMapComponent } from './earthquake-map/earthquake-map.component';
 import { FiltersComponent } from './filters/filters.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [AppComponent, EarthquakeMapComponent, FiltersComponent],
@@ -37,6 +38,7 @@ import { FiltersComponent } from './filters/filters.component';
     MatFormFieldModule,
     MatInputModule,
     MatSliderModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

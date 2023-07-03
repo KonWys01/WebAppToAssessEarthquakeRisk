@@ -1,6 +1,6 @@
 .open-filter {
   float: right;
-  width: 40px;
+  //width: 40px;
 }
 .mat-mdc-form-field + .mat-mdc-form-field {
   margin-left: 8px;
@@ -40,7 +40,15 @@
 
 
 ::ng-deep .mat-drawer-inner-container {
-  background-color: rgba(0, 0, 0,0.7);
+  background-color: rgba(0, 0, 0,0.4);
+}
+
+::ng-deep .mat-sidenav-backdrop.mat-sidenav-shown {
+  display: none;
+}
+
+.mat-drawer-backdrop.mat-drawer-shown {
+  background-color: transparent;
 }
 
 .mat-mdc-form-field {

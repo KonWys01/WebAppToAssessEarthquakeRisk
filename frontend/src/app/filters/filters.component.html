@@ -1,5 +1,7 @@
 <div class="sidenav-with-button">
-  <mat-sidenav-container class="example-container" [hasBackdrop]="false">
+  <mat-sidenav-container class="example-container" hasBackdrop="false" [ngStyle]="{width: !sidenav.opened ? '0px' : '40vh'}">
+<!--    TODO set ngStyle to work only after 0.5sec - after animation is done (right now there is no animation -->
+<!--    TODO set button on the leftside of sidebar - problably on the div before sidenav so it wont cause problems wish sidenav's width -->
     <mat-sidenav #sidenav mode="over" opened class="example-sidenav">
       <mat-accordion>
         <mat-expansion-panel hideToggle>
@@ -100,12 +102,17 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
         </mat-expansion-panel>
-
+        <button class="open-filter" mat-button (click)="sidenav.toggle()">
+          <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>
+          <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>
+        </button>
       </mat-accordion>
     </mat-sidenav>
+
   </mat-sidenav-container>
-  <button class="open-filter" mat-button (click)="sidenav.toggle()">
-    <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>
-    <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>
-  </button>
+
 </div>
+<button class="open-filter" mat-button (click)="sidenav.toggle()">
+  <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>
+  <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>
+</button>
