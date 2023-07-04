@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+
 import * as L from 'leaflet';
+import 'leaflet-draw';
 
 @Component({
   selector: 'app-coordinate-picker-dialog',
@@ -19,12 +21,6 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
       zoomControl: false,
     });
 
-    L.control
-      .zoom({
-        position: 'topright',
-      })
-      .addTo(this.map_dialog);
-
     const tiles = L.tileLayer(
       'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
       {
@@ -40,5 +36,44 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
   ngAfterViewInit(): void {
     this.initMap();
     this.map_dialog.invalidateSize();
+    this.blockMovement();
+    this.drawRectangle();
+  }
+
+  blockMovement(): void {
+    this.map_dialog.touchZoom.disable();
+    this.map_dialog.doubleClickZoom.disable();
+    this.map_dialog.scrollWheelZoom.disable();
+    this.map_dialog.boxZoom.disable();
+    this.map_dialog.keyboard.disable();
+  }
+
+  drawRectangle(): void {
+    var drawnItems: L.FeatureGroup = new L.FeatureGroup();
+    this.map_dialog.addLayer(drawnItems);
+    var drawControl: L.Control.Draw = new L.Control.Draw({
+      draw: {
+        polygon: false,
+        marker: false,
+        circle: false,
+        circlemarker: false,
+        polyline: false,
+        rectangle: <any>{ showArea: false },
+      },
+    });
+    this.map_dialog.on('draw:created', (e: any): void => {
+      const bounds = e.layer._bounds;
+      const lat_min = bounds._southWest.lat;
+      const lng_min = bounds._southWest.lng;
+      const lat_max = bounds._northEast.lat;
+      const lng_max = bounds._northEast.lng;
+      const rectangle: L.Rectangle = L.rectangle([
+        [lat_min, lng_min],
+        [lat_max, lng_max],
+      ]);
+      this.map_dialog.addLayer(rectangle);
+    });
+
+    this.map_dialog.addControl(drawControl);
   }
 }

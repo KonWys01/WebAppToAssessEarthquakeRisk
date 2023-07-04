@@ -19,7 +19,6 @@ export class EarthquakeMapComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     this.earthquakes = this.earthquakeService.getEarthquakes();
-    console.log(this.earthquakes);
   }
 
   private initMap(): void {
