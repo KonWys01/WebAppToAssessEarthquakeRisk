@@ -49,6 +49,7 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
   }
 
   drawRectangle(): void {
+    this.removeRectangles();
     const drawnItems: L.FeatureGroup = new L.FeatureGroup();
     this.map_dialog.addLayer(drawnItems);
     const drawControl: L.Control.Draw = new L.Control.Draw({
@@ -61,6 +62,8 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
         rectangle: <any>{ showArea: false },
       },
     });
+
+    this.map_dialog.addControl(drawControl);
     this.map_dialog.on('draw:created', (e: any): void => {
       this.removeRectangles(); // remove not seen rectangle
 
@@ -72,9 +75,8 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
         [lat_max, lng_max],
       ]);
       this.map_dialog.addLayer(rectangle);
+      this.map_dialog.removeControl(drawControl);
     });
-
-    this.map_dialog.addControl(drawControl);
   }
 
   removeRectangles(): void {
