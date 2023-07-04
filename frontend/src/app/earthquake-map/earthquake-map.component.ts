@@ -26,10 +26,18 @@ export class EarthquakeMapComponent implements AfterViewInit, OnInit {
     this.map = L.map('map', {
       center: [39.8282, -98.5795],
       zoom: 3,
+      zoomControl: false,
     });
 
+    L.control
+      .zoom({
+        position: 'topright',
+      })
+      .addTo(this.map);
+
     const tiles = L.tileLayer(
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      // 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
       {
         maxZoom: 18,
         minZoom: 3,

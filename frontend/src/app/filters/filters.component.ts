@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+
+import { MatDialog } from '@angular/material/dialog';
+
+import { CoordinatePickerDialogComponent } from './coordinate-picker-dialog/coordinate-picker-dialog.component';
 
 @Component({
   selector: 'app-filters',
@@ -11,20 +14,19 @@ export class FiltersComponent {
   panelOpenState = false;
   constructor(public dialog: MatDialog) {}
   openDialog(): void {
-    this.dialog.open(DialogDataExampleDialog, {
+    this.dialog.open(CoordinatePickerDialogComponent, {
       data: {
         animal: 'panda',
       },
+      height: '500px',
     });
   }
-}
 
-@Component({
-  selector: 'dialog-data-example-dialog',
-  templateUrl: 'dialog-data-example-dialog.html',
-  standalone: true,
-  imports: [MatDialogModule],
-})
-export class DialogDataExampleDialog {
-  // constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  formatLabel(value: number): string {
+    if (value >= 1000) {
+      return Math.round(value / 1000) + 'k';
+    }
+
+    return `${value}`;
+  }
 }

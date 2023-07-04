@@ -1,7 +1,11 @@
+.sidenav-with-button {
+  display: flex;
+}
+
 .open-filter {
   float: right;
-  //width: 40px;
 }
+
 .mat-mdc-form-field + .mat-mdc-form-field {
   margin-left: 8px;
 }
@@ -13,9 +17,11 @@
   left: 0;
   right: 0;
   width: 43vh;
+  float: left;
 }
 
 .example-sidenav {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,8 +30,8 @@
   background-color: transparent !important;
 }
 
-.mat-sidenav-backdrop.mat-sidenav-shown{
-    background-color: transparent !important;
+.mat-sidenav-backdrop.mat-sidenav-shown {
+  background-color: transparent !important;
 }
 
 ::ng-deep .mat-sidenav-container,
@@ -40,7 +46,7 @@
 
 
 ::ng-deep .mat-drawer-inner-container {
-  background-color: rgba(0, 0, 0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 ::ng-deep .mat-sidenav-backdrop.mat-sidenav-shown {
@@ -57,7 +63,7 @@
 
 .coordinates {
   border-radius: 10px;
-  border:2px solid black;
+  border: 2px solid black;
   padding: 15px;
   height: 200px;
 }
@@ -90,7 +96,7 @@
 
 .map-picker {
   border-radius: 10px;
-  border:2px solid black;
+  border: 2px solid black;
   position: absolute;
   top: 47%;
   left: 37.5%;
@@ -101,3 +107,10 @@
   height: 65px;
 }
 
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-mdc-slider {
+  width: 95%;
+}

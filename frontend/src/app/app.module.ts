@@ -21,9 +21,17 @@ import { AppComponent } from './app.component';
 import { EarthquakeMapComponent } from './earthquake-map/earthquake-map.component';
 import { FiltersComponent } from './filters/filters.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { CoordinatePickerDialogComponent } from './filters/coordinate-picker-dialog/coordinate-picker-dialog.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  declarations: [AppComponent, EarthquakeMapComponent, FiltersComponent],
+  declarations: [
+    AppComponent,
+    EarthquakeMapComponent,
+    FiltersComponent,
+    CoordinatePickerDialogComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -41,6 +49,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSliderModule,
     MatDialogModule,
     LeafletMarkerClusterModule,
+    MatToolbarModule,
+    MatCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
