@@ -36,7 +36,7 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
   ngAfterViewInit(): void {
     this.initMap();
     this.map_dialog.invalidateSize();
-    this.blockMovement();
+    // this.blockMovement();
     this.drawRectangle();
   }
 
@@ -49,9 +49,9 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
   }
 
   drawRectangle(): void {
-    var drawnItems: L.FeatureGroup = new L.FeatureGroup();
+    const drawnItems: L.FeatureGroup = new L.FeatureGroup();
     this.map_dialog.addLayer(drawnItems);
-    var drawControl: L.Control.Draw = new L.Control.Draw({
+    const drawControl: L.Control.Draw = new L.Control.Draw({
       draw: {
         polygon: false,
         marker: false,
@@ -62,11 +62,11 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
       },
     });
     this.map_dialog.on('draw:created', (e: any): void => {
-      const bounds = e.layer._bounds;
-      const lat_min = bounds._southWest.lat;
-      const lng_min = bounds._southWest.lng;
-      const lat_max = bounds._northEast.lat;
-      const lng_max = bounds._northEast.lng;
+      this.removeRectangles(); // remove not seen rectangle
+
+      const [lat_min, lng_min, lat_max, lng_max] =
+        this.getLatLngFromRectangleLayer(e);
+
       const rectangle: L.Rectangle = L.rectangle([
         [lat_min, lng_min],
         [lat_max, lng_max],
@@ -75,5 +75,22 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
     });
 
     this.map_dialog.addControl(drawControl);
+  }
+
+  removeRectangles(): void {
+    this.map_dialog.eachLayer((layer: any) => {
+      if (layer instanceof L.Rectangle) {
+        this.map_dialog.removeLayer(layer);
+      }
+    });
+  }
+
+  getLatLngFromRectangleLayer(e: any): [any, any, any, any] {
+    const bounds = e.layer._bounds;
+    const lat_min = bounds._southWest.lat;
+    const lng_min = bounds._southWest.lng;
+    const lat_max = bounds._northEast.lat;
+    const lng_max = bounds._northEast.lng;
+    return [lat_min, lng_min, lat_max, lng_max];
   }
 }
