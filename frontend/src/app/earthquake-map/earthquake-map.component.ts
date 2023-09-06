@@ -49,9 +49,11 @@ export class EarthquakeMapComponent implements AfterViewInit, OnInit {
   }
 
   private addEarthquakes(): void {
-    let markers = new L.MarkerClusterGroup({});
+    let markers = new L.MarkerClusterGroup({
+      maxClusterRadius: 15,
+    });
     this.earthquakes.forEach((eq) => {
-      const marker = L.circleMarker([eq.y as number, eq.x as number], {
+      const marker = L.circle([eq.y as number, eq.x as number], {
         stroke: false,
         fillOpacity: 0.8,
         fillColor: this.circleColor(eq.h as number),
@@ -82,6 +84,7 @@ export class EarthquakeMapComponent implements AfterViewInit, OnInit {
   }
 
   circleSize(mag: number): number {
-    return mag * 5;
+    // return mag * 5;
+    return mag * 20000;
   }
 }

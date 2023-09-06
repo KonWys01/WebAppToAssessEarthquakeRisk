@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 
+import { MatDialogRef } from '@angular/material/dialog';
+
 import * as L from 'leaflet';
 import 'leaflet-draw';
 
@@ -10,14 +12,21 @@ import 'leaflet-draw';
 })
 export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
   private map_dialog: any;
+  private lat_min_result: number;
+  private lng_min_result: number;
+  private lat_max_result: number;
+  private lng_max_result: number;
 
-  constructor() {}
+  constructor(
+    private dialogRef: MatDialogRef<CoordinatePickerDialogComponent>
+  ) {}
 
   ngOnInit() {}
   private initMap(): void {
     this.map_dialog = L.map('map_dialog', {
       center: [43.022088, 9.53944],
       zoom: 1,
+      minZoom: 1,
       zoomControl: false,
     });
 
@@ -70,6 +79,11 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
       const [lat_min, lng_min, lat_max, lng_max] =
         this.getLatLngFromRectangleLayer(e);
 
+      this.lat_min_result = lat_min;
+      this.lng_min_result = lng_min;
+      this.lat_max_result = lat_max;
+      this.lng_max_result = lng_max;
+
       const rectangle: L.Rectangle = L.rectangle([
         [lat_min, lng_min],
         [lat_max, lng_max],
@@ -94,5 +108,15 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
     const lat_max = bounds._northEast.lat;
     const lng_max = bounds._northEast.lng;
     return [lat_min, lng_min, lat_max, lng_max];
+  }
+  close(): void {
+    this.dialogRef.close({
+      coordinates: {
+        lat_min: this.lat_min_result,
+        lng_min: this.lng_min_result,
+        lat_axn: this.lat_max_result,
+        lng_max: this.lng_max_result,
+      },
+    });
   }
 }

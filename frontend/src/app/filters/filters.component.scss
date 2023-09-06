@@ -16,7 +16,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  width: 43vh;
+  width: 450px;
   float: left;
 }
 
@@ -70,7 +70,7 @@
 
 #ymax {
   position: absolute;
-  right: 37.5%;
+  right: 39%;
 }
 
 #xmin {
@@ -86,7 +86,7 @@
 
 #ymin {
   position: absolute;
-  right: 37.5%;
+  right: 39%;
   bottom: 3%;
 }
 
@@ -101,6 +101,7 @@
   top: 47%;
   left: 37.5%;
   overflow: hidden;
+  cursor: pointer;
 }
 
 #world-map {
@@ -113,4 +114,37 @@
 
 .mat-mdc-slider {
   width: 95%;
+}
+
+.example-result-card h2 {
+  margin: 0 8px;
+}
+
+.example-label-container {
+  display: flex;
+  //justify-content: space-between;
+  margin: 20px 10px 0;
+  //max-width: 284px;
+}
+
+.example-result-card .example-value-label {
+  font-weight: 600;
+}
+
+.min {
+  margin-right: 186px;
+}
+
+.date-field {
+  width: 100%;
+}
+
+
+.id-field {
+  width: 100%;
+}
+
+::ng-deep .mat-datepicker-content .mat-calendar {
+  width: 400px !important;
+  height: 450px !important;
 }

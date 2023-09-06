@@ -1,5 +1,5 @@
 <div class="sidenav-with-button">
-  <mat-sidenav-container class="example-container" hasBackdrop="false" [ngStyle]="{width: !sidenav.opened ? '0px' : '40vh'}">
+  <mat-sidenav-container class="example-container" hasBackdrop="false" [ngStyle]="{width: !sidenav.opened ? '0px' : '450px'}">
 <!--    TODO set ngStyle to work only after 0.5sec - after animation is done (right now there is no animation -->
 <!--    TODO set button on the leftside of sidebar - problably on the div before sidenav so it wont cause problems wish sidenav's width -->
 
@@ -20,10 +20,17 @@
               ID:
             </mat-panel-title>
             <mat-panel-description>
-              ID of the earthquake
+              ID of an earthquake
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <p>Provide ID of the earthquake you want to look for!</p>
+          <p>Provide ID of an earthquake you want to look for!</p>
+              <mat-form-field class="id-field">
+                <mat-label>ID of an earthquake</mat-label>
+                <input matInput type="text" [(ngModel)]="id">
+                <button *ngIf="id" matSuffix mat-icon-button aria-label="Clear" (click)="id=''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
         </mat-expansion-panel>
 
         <mat-expansion-panel>
@@ -37,29 +44,56 @@
 
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <div class="coordinates">
-            <mat-form-field id="ymax">
-              <mat-label>Y_max</mat-label>
-              <input matInput>
-            </mat-form-field>
-            <div class="latitude">
-              <mat-form-field id="xmin">
-                <mat-label>X_min</mat-label>
-                <input matInput>
-              </mat-form-field>
-              <div class="map-picker" (click)="openDialog()">
-                <img src="assets/world-map-transparent.png" id="world-map" alt="world-map">
+<!--          <mat-card>-->
+<!--            <mat-card-content>-->
+              <div class="coordinates">
+                <mat-form-field id="ymax">
+                  <mat-label>Y_max</mat-label>
+                  <input matInput>
+                </mat-form-field>
+                <div class="latitude">
+                  <mat-form-field id="xmin">
+                    <mat-label>X_min</mat-label>
+                    <input matInput>
+                  </mat-form-field>
+                  <div class="map-picker" (click)="openDialog()">
+                    <img src="assets/world-map-transparent.png" id="world-map" alt="world-map">
+                  </div>
+                  <mat-form-field id="xmax">
+                    <mat-label>X_max</mat-label>
+                    <input matInput>
+                  </mat-form-field>
+                </div>
+                <mat-form-field id="ymin">
+                  <mat-label>Y_min</mat-label>
+                  <input matInput>
+                </mat-form-field>
               </div>
-              <mat-form-field id="xmax">
-                <mat-label>X_max</mat-label>
-                <input matInput>
-              </mat-form-field>
-            </div>
-            <mat-form-field id="ymin">
-              <mat-label>Y_min</mat-label>
-              <input matInput>
-            </mat-form-field>
-          </div>
+<!--            </mat-card-content>-->
+<!--          </mat-card>-->
+<!--          <div class="coordinates">-->
+<!--            <mat-form-field id="ymax">-->
+<!--              <mat-label>Y_max</mat-label>-->
+<!--              <input matInput>-->
+<!--            </mat-form-field>-->
+<!--            <div class="latitude">-->
+<!--              <mat-form-field id="xmin">-->
+<!--                <mat-label>X_min</mat-label>-->
+<!--                <input matInput>-->
+<!--              </mat-form-field>-->
+<!--              <div class="map-picker" (click)="openDialog()">-->
+<!--                <img src="assets/world-map-transparent.png" id="world-map" alt="world-map">-->
+<!--              </div>-->
+<!--              <mat-form-field id="xmax">-->
+<!--                <mat-label>X_max</mat-label>-->
+<!--                <input matInput>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+<!--            <mat-form-field id="ymin">-->
+<!--              <mat-label>Y_min</mat-label>-->
+<!--              <input matInput>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
         </mat-expansion-panel>
         <mat-expansion-panel (opened)="panelOpenState = true"
                              (closed)="panelOpenState = false">
@@ -71,21 +105,53 @@
               Seismic level of earthquake
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-slider min="200" max="500" [displayWith]="formatLabel">
-            <input value="300" matSliderStartThumb>
-            <input value="400" matSliderEndThumb>
-          </mat-slider>
+          <p>Set minimum and maximum of magnitude!</p>
+          <mat-card class="example-result-card">
+            <mat-card-content>
+
+              <div class="example-label-container">
+                <div class="min">
+                  <label class="example-name-label">Value min:</label>
+                  <label class="example-value-label">{{magMin}}</label>
+                </div>
+                <div class="max">
+                  <label class="example-name-label">Value max:</label>
+                  <label class="example-value-label">{{magMax}}</label>
+                </div>
+              </div>
+              <mat-slider min="0" max="15" step="1" showTickMarks [displayWith]="formatLabel">
+                <input [(ngModel)]="magMin"  matSliderStartThumb>
+                <input [(ngModel)]="magMax" matSliderEndThumb>
+              </mat-slider>
+            </mat-card-content>
+          </mat-card>
         </mat-expansion-panel>
         <mat-expansion-panel (opened)="panelOpenState = true"
                              (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Timestamp:
+              Date range:
             </mat-panel-title>
             <mat-panel-description>
-              Timeframe of earthquakes
+              Date range of earthquakes
             </mat-panel-description>
           </mat-expansion-panel-header>
+          <p>Set date range of earthquakes!</p>
+          <mat-form-field class="date-field">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="rangePicker">
+              <input matStartDate placeholder="Start date">
+              <input matEndDate placeholder="End date">
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+            <mat-date-range-picker #rangePicker>
+              <mat-date-range-picker-actions>
+                <button mat-button matDateRangePickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+              </mat-date-range-picker-actions>
+            </mat-date-range-picker>
+          </mat-form-field>
         </mat-expansion-panel>
         <button class="open-filter" mat-button (click)="sidenav.toggle()">
           <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>

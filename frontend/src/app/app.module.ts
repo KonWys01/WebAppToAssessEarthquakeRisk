@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
@@ -24,6 +25,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CoordinatePickerDialogComponent } from './filters/coordinate-picker-dialog/coordinate-picker-dialog.component';
 import { MatCardModule } from '@angular/material/card';
+import { FormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,9 @@ import { MatCardModule } from '@angular/material/card';
     LeafletMarkerClusterModule,
     MatToolbarModule,
     MatCardModule,
+    FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
