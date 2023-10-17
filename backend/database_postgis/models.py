@@ -1,5 +1,5 @@
-from geoalchemy2.types import Geometry
-from sqlalchemy import Column, Integer, String, Double
+from geoalchemy2 import Geometry
+from sqlalchemy import Column, Integer, String, Double, Date, BigInteger
 
 from .database import Base
 
@@ -8,10 +8,11 @@ class Earthquake(Base):
     __tablename__ = 'earthquake'
 
     id = Column(Integer, primary_key=True)
+    date = Column(Date)
     mag = Column(Double)
     place = Column(String)
-    time = Column(Integer)
-    updated = Column(Integer)
+    time = Column(BigInteger)
+    updated = Column(BigInteger)
     tz = Column(Integer)
     url = Column(String)
     detail = Column(String)
@@ -34,4 +35,4 @@ class Earthquake(Base):
     magType = Column(String)
     type = Column(String)
     title = Column(String)
-    geom = Column(Geometry('POINT', 4326))
+    geom = Column(Geometry(geometry_type='POINTZ', srid=4326, dimension=3))

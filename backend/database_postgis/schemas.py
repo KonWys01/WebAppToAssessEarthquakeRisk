@@ -1,6 +1,10 @@
-from pydantic import BaseModel
 from typing import List
+from datetime import date
+
 from geojson_pydantic.geometries import Point
+from geoalchemy2.shape import to_shape
+from geoalchemy2.elements import WKBElement
+from pydantic import BaseModel, validator
 
 
 class Properties(BaseModel):
@@ -35,9 +39,23 @@ class Properties(BaseModel):
         from_attributes = True
 
 
+def convert_to_point(point: WKBElement) -> Point:
+    point = to_shape(point)
+    type = 'Point'
+    coordinates = [point.x, point.y, point.z]
+    return Point(type=type, coordinates=coordinates)
+
+
 class Earthquake(Properties):
     id: int
+    date: date
     geom: Point
+
+    @validator('geom', pre=True, allow_reuse=True, always=True)
+    def correct_geom_format(cls, v):
+        if not isinstance(v, WKBElement):
+            raise ValueError('must be a valid WKBE element')
+        return convert_to_point(v)
 
 
 class GeojsonSingle(BaseModel):
