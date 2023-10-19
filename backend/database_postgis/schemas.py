@@ -18,7 +18,7 @@ class Properties(BaseModel):
     felt: int | None
     cdi: float | None
     mmi: float | None
-    alert: int | None
+    alert: str | None
     status: str | None
     tsunami: int | None
     sig: int | None
@@ -84,6 +84,7 @@ class Geojson(BaseModel):
     type: str
     metadata: Metadata
     features: List[GeojsonSingle]
+    bbox: List[float]
 
     class Config:
         from_attributes = True
