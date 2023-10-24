@@ -36,3 +36,4 @@ class Earthquake(Base):
     type = Column(String)
     title = Column(String)
     geom = Column(Geometry(geometry_type='POINTZ', srid=4326, dimension=3))
+    id_geom = Column(String)

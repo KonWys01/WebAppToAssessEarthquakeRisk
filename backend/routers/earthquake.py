@@ -27,7 +27,7 @@ async def get_all_earthquakes():
     return {"message": "returns all earthquakes"}
 
 
-@earthquake_router.post("/", response_model=Union[Earthquake, int, str])
+@earthquake_router.post("/", response_model=Union[Earthquake, int, str, GeojsonSingle])
 async def add_earthquake(data: Geojson | GeojsonSingle | Any, db: Session = Depends(get_db)):
     """
     trzeba zmienic nazwe zmiennej file. Możliwe do przekazania są:

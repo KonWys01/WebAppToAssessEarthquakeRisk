@@ -7,7 +7,7 @@ from geoalchemy2.elements import WKBElement
 from pydantic import BaseModel, validator
 
 
-class Properties(BaseModel):
+class PropertiesFile(BaseModel):
     mag: float | None
     place: str | None
     time: int | None
@@ -39,6 +39,10 @@ class Properties(BaseModel):
         from_attributes = True
 
 
+class PropertiesDB(PropertiesFile):
+    id_geom: str
+
+
 def convert_to_point(point: WKBElement) -> Point:
     point = to_shape(point)
     type = 'Point'
@@ -46,7 +50,7 @@ def convert_to_point(point: WKBElement) -> Point:
     return Point(type=type, coordinates=coordinates)
 
 
-class Earthquake(Properties):
+class Earthquake(PropertiesDB):
     id: int
     date: date
     geom: Point
@@ -60,12 +64,21 @@ class Earthquake(Properties):
 
 class GeojsonSingle(BaseModel):
     type: str
-    properties: Properties
+    properties: PropertiesFile
     geometry: Point
     id: str
 
     class Config:
         from_attributes = True
+
+    @validator('geometry', pre=True, allow_reuse=True, always=True)
+    def correct_geom_format(cls, v):
+        # print(type(v), v)
+        if isinstance(v, dict):
+            return Point(type=v['type'], coordinates=v['coordinates'])
+        if not isinstance(v, WKBElement):
+            raise ValueError('must be a valid WKBE element')
+        return convert_to_point(v)
 
 
 class Metadata(BaseModel):
