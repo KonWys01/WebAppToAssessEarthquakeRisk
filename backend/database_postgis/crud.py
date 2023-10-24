@@ -88,3 +88,7 @@ def add_single_earthquake(db: Session, earthquake: schemas.GeojsonSingle) -> sch
     load_added_earthquake = db.query(models.Earthquake).order_by(models.Earthquake.id.desc()).first()
 
     return model_to_schema(load_added_earthquake)
+
+
+def get_single_earthquake(db: Session, id: int) -> schemas.GeojsonSingle:
+    return model_to_schema(db.query(models.Earthquake).filter(models.Earthquake.id == id).first())

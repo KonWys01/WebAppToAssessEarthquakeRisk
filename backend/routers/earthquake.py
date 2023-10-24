@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from database_postgis.database import SessionLocal
 from database_postgis.schemas import Geojson, Earthquake, GeojsonSingle
-from database_postgis.crud import add_single_earthquake, add_multiple_earthquakes
+from database_postgis.crud import add_single_earthquake, add_multiple_earthquakes, get_single_earthquake
 
 earthquake_router = APIRouter(
     prefix='/earthquake',
@@ -47,9 +47,9 @@ async def add_earthquake(data: Geojson | GeojsonSingle | Any, db: Session = Depe
         #     return 'Wrong type of Earthquake data'
 
 
-@earthquake_router.get("/{id}")
-async def get_specific_earthquake(id: int):
-    return {"message": f"return earthquake with {id=}"}
+@earthquake_router.get("/{id}", response_model=GeojsonSingle)
+async def get_specific_earthquake(id: int, db: Session = Depends(get_db)):
+    return get_single_earthquake(db=db, id=id)
 
 
 @earthquake_router.delete("/{id}")
