@@ -1,10 +1,10 @@
-from typing import Union, Any, List
+from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 
 from database_postgis.database import SessionLocal
-from database_postgis.schemas import Geojson, Earthquake, GeojsonSingle, GetAll
+from database_postgis.schemas import Geojson, GeojsonSingle, ResponseModel
 from database_postgis.crud import \
     add_single_earthquake, \
     add_multiple_earthquakes, \
@@ -26,7 +26,7 @@ def get_db():
         db.close()
 
 
-@earthquake_router.get("/", response_model=List[GetAll])
+@earthquake_router.get("/", response_model=ResponseModel)
 async def get_all_earthquakes(
         mag_min: float = 0.0,
         mag_max: float = 10.0,
@@ -36,7 +36,7 @@ async def get_all_earthquakes(
         type: str = '',
         db: Session = Depends(get_db),
 ):
-    return get_multiple_earthquakes(
+    crud_data = get_multiple_earthquakes(
         db=db,
         mag_min=mag_min,
         mag_max=mag_max,
@@ -45,9 +45,14 @@ async def get_all_earthquakes(
         coordinates=coordinates,
         type_eq=type
     )
+    return ResponseModel(
+        data=crud_data,
+        status_code=status.HTTP_200_OK,
+        count=len(crud_data)
+    )
 
 
-@earthquake_router.post("/", response_model=Union[Earthquake, int, str, GeojsonSingle])
+@earthquake_router.post("/", response_model=ResponseModel)
 async def add_earthquake(data: Geojson | GeojsonSingle | Any, db: Session = Depends(get_db)):
     """
     trzeba zmienic nazwe zmiennej file. Możliwe do przekazania są:
@@ -57,19 +62,42 @@ async def add_earthquake(data: Geojson | GeojsonSingle | Any, db: Session = Depe
 
     try:
         eq_data = Geojson.model_validate(data)
-        return add_multiple_earthquakes(db=db, file=eq_data)
+        crud_data = add_multiple_earthquakes(db=db, file=eq_data)
+        return ResponseModel(
+            data="Added multiple earthquakes",
+            status_code=status.HTTP_200_OK,
+            count=crud_data
+        )
     except:
-        # try:
-        eq_data = GeojsonSingle.model_validate(data)
-        return add_single_earthquake(db=db, earthquake=eq_data)
-        # except:
-        #     print('none')
-        #     return 'Wrong type of Earthquake data'
+        try:
+            eq_data = GeojsonSingle.model_validate(data)
+            crud_data = add_single_earthquake(db=db, earthquake=eq_data)
+            return ResponseModel(
+                data=crud_data,
+                status_code=status.HTTP_200_OK,
+                count=1
+            )
+        except:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail='Incorrect post body data'
+            )
 
 
-@earthquake_router.get("/{id}", response_model=GeojsonSingle)
+@earthquake_router.get("/{id}", response_model=ResponseModel)
 async def get_specific_earthquake(id: int, db: Session = Depends(get_db)):
-    return get_single_earthquake(db=db, id=id)
+    try:
+        crud_data = get_single_earthquake(db=db, id=id)
+        return ResponseModel(
+            data=crud_data,
+            status_code=status.HTTP_200_OK,
+            count=1
+        )
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Earthquake with that id does not exist'
+        )
 
 
 @earthquake_router.delete("/{id}")

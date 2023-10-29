@@ -116,3 +116,9 @@ class GetAll(BaseModel):
         if not isinstance(v, WKBElement):
             raise ValueError('must be a valid WKBE element')
         return convert_to_point(v)
+
+
+class ResponseModel(BaseModel):
+    data: List[GetAll] | GeojsonSingle | str
+    status_code: int
+    count: int
