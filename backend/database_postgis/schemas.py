@@ -53,9 +53,9 @@ def convert_to_point(point: WKBElement) -> Point:
 class Earthquake(PropertiesDB):
     id: int
     date: date
-    geom: Point
+    geometry: Point
 
-    @validator('geom', pre=True, allow_reuse=True, always=True)
+    @validator('geometry', pre=True, allow_reuse=True, always=True)
     def correct_geom_format(cls, v):
         if not isinstance(v, WKBElement):
             raise ValueError('must be a valid WKBE element')
@@ -101,3 +101,18 @@ class Geojson(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class GetAll(BaseModel):
+    id: int
+    mag: float | None
+    date: date | None
+    geometry: Point
+    id_geom: str | None
+    type: str | None
+
+    @validator('geometry', pre=True, allow_reuse=True, always=True)
+    def correct_geom_format(cls, v):
+        if not isinstance(v, WKBElement):
+            raise ValueError('must be a valid WKBE element')
+        return convert_to_point(v)

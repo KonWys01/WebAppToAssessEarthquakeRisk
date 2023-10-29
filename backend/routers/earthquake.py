@@ -1,11 +1,15 @@
-from typing import Union, Any
+from typing import Union, Any, List
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from database_postgis.database import SessionLocal
-from database_postgis.schemas import Geojson, Earthquake, GeojsonSingle
-from database_postgis.crud import add_single_earthquake, add_multiple_earthquakes, get_single_earthquake
+from database_postgis.schemas import Geojson, Earthquake, GeojsonSingle, GetAll
+from database_postgis.crud import \
+    add_single_earthquake, \
+    add_multiple_earthquakes, \
+    get_single_earthquake, \
+    get_multiple_earthquakes
 
 earthquake_router = APIRouter(
     prefix='/earthquake',
@@ -22,9 +26,25 @@ def get_db():
         db.close()
 
 
-@earthquake_router.get("/")
-async def get_all_earthquakes():
-    return {"message": "returns all earthquakes"}
+@earthquake_router.get("/", response_model=List[GetAll])
+async def get_all_earthquakes(
+        mag_min: float = 0.0,
+        mag_max: float = 10.0,
+        date_start: str = '-infinity',
+        date_end: str = 'infinity',
+        coordinates: str = None,
+        type: str = '',
+        db: Session = Depends(get_db),
+):
+    return get_multiple_earthquakes(
+        db=db,
+        mag_min=mag_min,
+        mag_max=mag_max,
+        date_start=date_start,
+        date_end=date_end,
+        coordinates=coordinates,
+        type_eq=type
+    )
 
 
 @earthquake_router.post("/", response_model=Union[Earthquake, int, str, GeojsonSingle])

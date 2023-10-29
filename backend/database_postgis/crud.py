@@ -1,7 +1,10 @@
 from datetime import datetime
+from typing import List
+import ast
 
 from sqlalchemy.orm import Session
 from geoalchemy2.shape import from_shape
+from geoalchemy2 import functions
 from shapely.geometry import Point
 
 from . import schemas, models
@@ -92,3 +95,63 @@ def add_single_earthquake(db: Session, earthquake: schemas.GeojsonSingle) -> sch
 
 def get_single_earthquake(db: Session, id: int) -> schemas.GeojsonSingle:
     return model_to_schema(db.query(models.Earthquake).filter(models.Earthquake.id == id).first())
+
+
+def all_earthquakes_to_schema(filtered_earthquakes) -> List[schemas.GetAll]:
+    eq_list = []
+    for eq in filtered_earthquakes:
+        eq_list.append(
+            schemas.GetAll(
+                id=eq[0],
+                mag=eq[1],
+                date=eq[2],
+                geometry=eq[3],
+                id_geom=eq[4],
+                type=eq[5]
+            )
+        )
+    return eq_list
+
+
+def get_multiple_earthquakes(
+        db: Session,
+        mag_min: float,
+        mag_max: float,
+        date_start: str,
+        date_end: str,
+        coordinates: str | None,
+        type_eq: str) -> List[schemas.GetAll]:
+
+    if coordinates:
+        """
+        format -> [[-180,-90],[180,-90],[180,90],[-180,90],[-180,-90]]
+        """
+        st_within_text = 'SRID=4326;POLYGON(('
+        str_to_list = ast.literal_eval(coordinates)
+        formatted_coordinates = ', '.join(
+            ' '.join(str(j) for j in i) for i in str_to_list)
+        st_within_text = st_within_text + formatted_coordinates + '))'
+
+    else:
+        st_within_text = 'SRID=4326;POLYGON((-180 -90, 180 -90, 180 90, -180 90, -180 -90))'
+    filtered_earthquakes = db.query(models.Earthquake)\
+        .with_entities(
+        models.Earthquake.id,
+        models.Earthquake.mag,
+        models.Earthquake.date,
+        models.Earthquake.geom,
+        models.Earthquake.id_geom,
+        models.Earthquake.type)\
+        .filter(models.Earthquake.mag >= mag_min)\
+        .filter(models.Earthquake.mag <= mag_max)\
+        .filter(models.Earthquake.date >= date_start)\
+        .filter(models.Earthquake.date <= date_end)\
+        .filter(models.Earthquake.date <= date_end)\
+        .filter(
+            functions.ST_Within(
+                models.Earthquake.geom,
+                functions.ST_GeomFromEWKT(st_within_text)))\
+        .where(models.Earthquake.type.contains(type_eq))\
+        .all()
+
+    return all_earthquakes_to_schema(filtered_earthquakes)
