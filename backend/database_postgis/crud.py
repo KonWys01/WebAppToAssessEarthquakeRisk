@@ -155,3 +155,9 @@ def get_multiple_earthquakes(
         .all()
 
     return all_earthquakes_to_schema(filtered_earthquakes)
+
+
+def delete_earthquake(db: Session, id: int) -> int:
+    delete_query = db.query(models.Earthquake).filter(models.Earthquake.id == id).delete()
+    db.commit()
+    return delete_query

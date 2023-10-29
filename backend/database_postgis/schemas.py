@@ -118,7 +118,10 @@ class GetAll(BaseModel):
         return convert_to_point(v)
 
 
-class ResponseModel(BaseModel):
+class ResponseModelNoCount(BaseModel):
     data: List[GetAll] | GeojsonSingle | str
     status_code: int
+
+
+class ResponseModel(ResponseModelNoCount):
     count: int

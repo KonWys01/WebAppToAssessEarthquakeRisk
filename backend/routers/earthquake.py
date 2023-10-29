@@ -4,12 +4,13 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 
 from database_postgis.database import SessionLocal
-from database_postgis.schemas import Geojson, GeojsonSingle, ResponseModel
+from database_postgis.schemas import Geojson, GeojsonSingle, ResponseModel, ResponseModelNoCount
 from database_postgis.crud import \
     add_single_earthquake, \
     add_multiple_earthquakes, \
     get_single_earthquake, \
-    get_multiple_earthquakes
+    get_multiple_earthquakes, \
+    delete_earthquake
 
 earthquake_router = APIRouter(
     prefix='/earthquake',
@@ -100,6 +101,17 @@ async def get_specific_earthquake(id: int, db: Session = Depends(get_db)):
         )
 
 
-@earthquake_router.delete("/{id}")
-async def remove_earthquake(id: int):
-    return {"message": f"removes earthquake with {id=}"}
+@earthquake_router.delete("/{id}", response_model=ResponseModelNoCount)
+async def remove_earthquake(id: int, db: Session = Depends(get_db)):
+    data_crud = delete_earthquake(db=db, id=id)
+    if data_crud == 1:
+        return ResponseModelNoCount(
+            data=f"Deleted earthquake with {id=}",
+            status_code=status.HTTP_200_OK
+        )
+    elif data_crud == 0:
+        return ResponseModelNoCount(
+            data=f"Earthquake with {id=} does not exist. Delete process aborted",
+            status_code=status.HTTP_404_NOT_FOUND
+        )
+
