@@ -116,23 +116,26 @@
   width: 95%;
 }
 
-.example-result-card h2 {
+.card h2 {
   margin: 0 8px;
 }
 
-.example-label-container {
-  display: flex;
-  //justify-content: space-between;
+.slider {
+  display: block;
   margin: 20px 10px 0;
-  //max-width: 284px;
 }
 
-.example-result-card .example-value-label {
+.card .label-value {
   font-weight: 600;
 }
 
 .min {
-  margin-right: 186px;
+  float: left;
+}
+
+.max {
+  float: right;
+  width: 95px;
 }
 
 .date-field {
@@ -147,4 +150,16 @@
 ::ng-deep .mat-datepicker-content .mat-calendar {
   width: 400px !important;
   height: 450px !important;
+}
+
+.label {
+  margin-right: 5px;
+}
+
+.max-value {
+  float: right;
+}
+
+.label-max {
+  float: left;
 }
