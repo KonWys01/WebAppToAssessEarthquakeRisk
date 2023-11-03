@@ -16,6 +16,7 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
   private lng_min_result: number;
   private lat_max_result: number;
   private lng_max_result: number;
+  drawBlocked: boolean = true;
 
   constructor(
     private dialogRef: MatDialogRef<CoordinatePickerDialogComponent>
@@ -58,6 +59,7 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
   }
 
   drawRectangle(): void {
+    this.drawBlocked = true;
     this.removeRectangles();
     const drawnItems: L.FeatureGroup = new L.FeatureGroup();
     this.map_dialog.addLayer(drawnItems);
@@ -90,6 +92,7 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
       ]);
       this.map_dialog.addLayer(rectangle);
       this.map_dialog.removeControl(drawControl);
+      this.drawBlocked = false;
     });
   }
 
@@ -109,12 +112,12 @@ export class CoordinatePickerDialogComponent implements AfterViewInit, OnInit {
     const lng_max = bounds._northEast.lng;
     return [lat_min, lng_min, lat_max, lng_max];
   }
-  close(): void {
+  apply(): void {
     this.dialogRef.close({
       coordinates: {
         lat_min: this.lat_min_result,
         lng_min: this.lng_min_result,
-        lat_axn: this.lat_max_result,
+        lat_max: this.lat_max_result,
         lng_max: this.lng_max_result,
       },
     });

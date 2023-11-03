@@ -20,18 +20,18 @@ export class FiltersComponent implements AfterViewInit {
 
   constructor(public dialog: MatDialog) {
     this.form = new FormGroup({
-      magnitude_min: new FormControl(0),
-      magnitude_max: new FormControl(10),
+      magnitude_min: new FormControl(''),
+      magnitude_max: new FormControl(''),
       date_start: new FormControl(''),
       date_end: new FormControl(''),
-      top_left_y: new FormControl(0),
-      top_left_x: new FormControl(0),
-      top_right_y: new FormControl(0),
-      top_right_x: new FormControl(0),
-      bottom_right_y: new FormControl(0),
-      bottom_right_x: new FormControl(0),
-      bottom_left_y: new FormControl(0),
-      bottom_left_x: new FormControl(0),
+      top_left_lat: new FormControl(''),
+      top_left_lng: new FormControl(''),
+      top_right_lat: new FormControl(''),
+      top_right_lng: new FormControl(''),
+      bottom_right_lat: new FormControl(''),
+      bottom_right_lng: new FormControl(''),
+      bottom_left_lat: new FormControl(''),
+      bottom_left_lng: new FormControl(''),
       type: new FormControl(''),
     });
   }
@@ -55,7 +55,17 @@ export class FiltersComponent implements AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe((res) => {
-      this.form.get('area')?.setValue(res);
+      if (res.coordinates) {
+        this.form.get('top_left_lat')?.patchValue(res.coordinates.lat_max);
+        this.form.get('top_left_lng')?.patchValue(res.coordinates.lng_min);
+        this.form.get('top_right_lat')?.patchValue(res.coordinates.lat_max);
+        this.form.get('top_right_lng')?.patchValue(res.coordinates.lng_max);
+        this.form.get('bottom_right_lat')?.patchValue(res.coordinates.lat_min);
+        this.form.get('bottom_right_lng')?.patchValue(res.coordinates.lng_max);
+        this.form.get('bottom_left_lat')?.patchValue(res.coordinates.lat_min);
+        this.form.get('bottom_left_lng')?.patchValue(res.coordinates.lng_min);
+        console.log(this.form.value);
+      }
     });
   }
 

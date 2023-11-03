@@ -86,22 +86,22 @@
             <mat-card-content class="coordinates-content">
               <div class="top-left">
                 <mat-form-field id="top_left_y">
-                  <mat-label>Top left Y</mat-label>
-                  <input matInput>
+                  <mat-label>Top left lat.</mat-label>
+                  <input [formControl]="$any(form).controls['top_left_lat']" matInput>
                 </mat-form-field>
                 <mat-form-field id="top_left_x">
-                  <mat-label>Top left X</mat-label>
-                  <input matInput>
+                  <mat-label>Top left long.</mat-label>
+                  <input [formControl]="$any(form).controls['top_left_lng']" matInput>
                 </mat-form-field>
               </div>
               <div class="top-right">
                 <mat-form-field id="top_right_y">
-                  <mat-label>Top right Y</mat-label>
-                  <input matInput>
+                  <mat-label>Top right lat.</mat-label>
+                  <input [formControl]="$any(form).controls['top_right_lat']" matInput>
                 </mat-form-field>
                 <mat-form-field id="top_right_x">
-                  <mat-label>Top right X</mat-label>
-                  <input matInput>
+                  <mat-label>Top right long.</mat-label>
+                  <input [formControl]="$any(form).controls['top_right_lng']" matInput>
                 </mat-form-field>
               </div>
               <mat-card class="map-picker" (click)="openDialog()">
@@ -111,22 +111,22 @@
               </mat-card>
               <div class="bottom-right">
                 <mat-form-field id="bottom_right_y">
-                  <mat-label>Bottom right Y</mat-label>
-                  <input matInput>
+                  <mat-label>Bottom right lat.</mat-label>
+                  <input [formControl]="$any(form).controls['bottom_right_lat']"  matInput>
                 </mat-form-field>
                 <mat-form-field id="bottom_right_x">
-                  <mat-label>Bottom right X</mat-label>
-                  <input matInput>
+                  <mat-label>Bottom right long.</mat-label>
+                  <input [formControl]="$any(form).controls['bottom_right_lng']" matInput>
                 </mat-form-field>
               </div>
               <div class="bottom-left">
                 <mat-form-field id="bottom_left_y">
-                  <mat-label>Bottom left Y</mat-label>
-                  <input matInput>
+                  <mat-label>Bottom left lat.</mat-label>
+                  <input [formControl]="$any(form).controls['bottom_left_lat']" matInput>
                 </mat-form-field>
                 <mat-form-field id="bottom_left_x">
-                  <mat-label>Bottom left x</mat-label>
-                  <input matInput>
+                  <mat-label>Bottom left long.</mat-label>
+                  <input [formControl]="$any(form).controls['bottom_left_lng']" matInput>
                 </mat-form-field>
               </div>
             </mat-card-content>

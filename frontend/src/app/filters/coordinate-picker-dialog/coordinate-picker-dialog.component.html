@@ -8,7 +8,7 @@
   </mat-card-content>
   <mat-card-actions align="end">
     <button mat-button matDialogClose>CANCEL</button>
-    <button mat-button (click)="drawRectangle()">DRAW AGAIN</button>
-    <button mat-button (click)="close()">APPLY</button>
+    <button mat-button [disabled]="drawBlocked" (click)="drawRectangle()">DRAW AGAIN</button>
+    <button mat-button (click)="apply()">APPLY</button>
   </mat-card-actions>
 </mat-card>
