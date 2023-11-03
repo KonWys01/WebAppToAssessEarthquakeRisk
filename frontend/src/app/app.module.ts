@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -27,6 +28,7 @@ import { CoordinatePickerDialogComponent } from './filters/coordinate-picker-dia
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ConfigService } from './services/config.service';
 
 @NgModule({
   declarations: [
@@ -57,8 +59,17 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     FormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [ConfigService],
+      useFactory: (configService: ConfigService) => () =>
+        configService.loadConfig(),
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

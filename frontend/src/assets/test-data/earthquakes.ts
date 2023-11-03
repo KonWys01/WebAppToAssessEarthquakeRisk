@@ -1,6 +1,6 @@
-import { Earthquake } from '../../app/models/earthquake.model';
+import { GeojsonSingle } from '../../app/models/earthquake.model';
 
-export const EARTHQUAKES: Earthquake[] = [
+export const EARTHQUAKES: GeojsonSingle[] = [
   {
     type: 'Feature',
     properties: {

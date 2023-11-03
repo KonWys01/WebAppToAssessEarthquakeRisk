@@ -1,18 +1,36 @@
 import { Injectable } from '@angular/core';
-import { EARTHQUAKES } from '../../assets/test-data/earthquakes';
-import { EarthquakeCoordinates } from '../models/earthquake.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
+
+import { Observable } from 'rxjs';
+
+import {
+  Filters,
+  ResponseModelEarthquakeFiltered,
+} from '../models/earthquake.model';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EarthquakeService {
-  constructor() {}
-  getEarthquakes(): EarthquakeCoordinates[] {
-    return EARTHQUAKES.map((eq) => ({
-      mag: eq.properties.mag,
-      x: eq.geometry.coordinates[0],
-      y: eq.geometry.coordinates[1],
-      h: eq.geometry.coordinates[2],
-    }));
+  constructor(private http: HttpClient, private configService: ConfigService) {}
+
+  getAllEarthquakes(
+    filters?: Filters
+  ): Observable<ResponseModelEarthquakeFiltered> {
+    let params: string = '';
+    if (filters) {
+      // @ts-ignore
+      params = new HttpParams({ fromObject: filters }).toString();
+    }
+    console.log(
+      this.configService.apiBaseUrl + this.configService.apiEarthquake
+    );
+    return this.http.get<ResponseModelEarthquakeFiltered>(
+      this.configService.apiBaseUrl +
+        this.configService.apiEarthquake +
+        '?' +
+        params
+    );
   }
 }

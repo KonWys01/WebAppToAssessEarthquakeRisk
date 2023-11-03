@@ -4,7 +4,10 @@ import * as L from 'leaflet';
 import 'leaflet.markercluster';
 
 import { EarthquakeService } from '../services/earthquake.service';
-import { EarthquakeCoordinates } from '../models/earthquake.model';
+import {
+  EarthquakesFiltered,
+  ResponseModelEarthquakeFiltered,
+} from '../models/earthquake.model';
 
 @Component({
   selector: 'app-earthquake-map',
@@ -13,12 +16,18 @@ import { EarthquakeCoordinates } from '../models/earthquake.model';
 })
 export class EarthquakeMapComponent implements AfterViewInit, OnInit {
   private map: any;
-  earthquakes: EarthquakeCoordinates[];
+  earthquakesFiltered: EarthquakesFiltered[];
 
   constructor(private earthquakeService: EarthquakeService) {}
 
   ngOnInit() {
-    this.earthquakes = this.earthquakeService.getEarthquakes();
+    this.earthquakeService
+      .getAllEarthquakes({ date_start: '1995-03-01', date_end: '1995-03-31' })
+      .subscribe((data: ResponseModelEarthquakeFiltered) => {
+        this.earthquakesFiltered = data.data;
+        console.log('earthquake filtered', data);
+        this.addEarthquakes();
+      });
   }
 
   private initMap(): void {
@@ -52,13 +61,19 @@ export class EarthquakeMapComponent implements AfterViewInit, OnInit {
     let markers = new L.MarkerClusterGroup({
       maxClusterRadius: 15,
     });
-    this.earthquakes.forEach((eq) => {
-      const marker = L.circle([eq.y as number, eq.x as number], {
-        stroke: false,
-        fillOpacity: 0.8,
-        fillColor: this.circleColor(eq.h as number),
-        radius: this.circleSize(eq.mag as number),
-      });
+    this.earthquakesFiltered.forEach((eq: EarthquakesFiltered): void => {
+      const marker = L.circle(
+        [
+          eq.geometry.coordinates[1] as number,
+          eq.geometry.coordinates[0] as number,
+        ],
+        {
+          stroke: false,
+          fillOpacity: 0.8,
+          fillColor: this.circleColor(eq.geometry.coordinates[2] as number),
+          radius: this.circleSize(eq.mag as number),
+        }
+      );
       markers.addLayer(marker);
     });
     this.map.addLayer(markers);
@@ -66,7 +81,6 @@ export class EarthquakeMapComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     this.initMap();
-    this.addEarthquakes();
   }
 
   circleColor(depth: number): string {
