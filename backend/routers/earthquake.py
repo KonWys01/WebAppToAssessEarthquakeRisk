@@ -29,12 +29,12 @@ def get_db():
 
 @earthquake_router.get("/", response_model=ResponseModel)
 async def get_all_earthquakes(
-        mag_min: float = 0.0,
-        mag_max: float = 10.0,
-        date_start: str = '-infinity',
-        date_end: str = 'infinity',
+        mag_min: float = None,
+        mag_max: float = None,
+        date_start: str = None,
+        date_end: str = None,
         coordinates: str = None,
-        type: str = '',
+        type: str = None,
         db: Session = Depends(get_db),
 ):
     crud_data = get_multiple_earthquakes(

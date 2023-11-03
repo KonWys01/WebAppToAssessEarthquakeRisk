@@ -121,7 +121,15 @@ def get_multiple_earthquakes(
         date_end: str,
         coordinates: str | None,
         type_eq: str) -> List[schemas.GetAll]:
-
+    filters = []
+    if mag_min:
+        filters.append(models.Earthquake.mag >= mag_min)
+    if mag_max:
+        filters.append(models.Earthquake.mag <= mag_max)
+    if date_start:
+        filters.append(models.Earthquake.date >= date_start)
+    if date_end:
+        filters.append(models.Earthquake.date <= date_end)
     if coordinates:
         """
         format -> [[-180,-90],[180,-90],[180,90],[-180,90],[-180,-90]]
@@ -132,26 +140,23 @@ def get_multiple_earthquakes(
             ' '.join(str(j) for j in i) for i in str_to_list)
         st_within_text = st_within_text + formatted_coordinates + '))'
 
-    else:
-        st_within_text = 'SRID=4326;POLYGON((-180 -90, 180 -90, 180 90, -180 90, -180 -90))'
-    filtered_earthquakes = db.query(models.Earthquake)\
+        geom_filter = functions.ST_Within(
+            models.Earthquake.geom,
+            functions.ST_GeomFromEWKT(st_within_text))
+        filters.append(geom_filter)
+    if type_eq:
+        type_filter = f"%{type_eq}%"
+        filters.append(models.Earthquake.type.ilike(type_filter))
+
+    filtered_earthquakes = db.query(models.Earthquake) \
         .with_entities(
         models.Earthquake.id,
         models.Earthquake.mag,
         models.Earthquake.date,
         models.Earthquake.geom,
         models.Earthquake.id_geom,
-        models.Earthquake.type)\
-        .filter(models.Earthquake.mag >= mag_min)\
-        .filter(models.Earthquake.mag <= mag_max)\
-        .filter(models.Earthquake.date >= date_start)\
-        .filter(models.Earthquake.date <= date_end)\
-        .filter(models.Earthquake.date <= date_end)\
-        .filter(
-            functions.ST_Within(
-                models.Earthquake.geom,
-                functions.ST_GeomFromEWKT(st_within_text)))\
-        .where(models.Earthquake.type.contains(type_eq))\
+        models.Earthquake.type) \
+        .filter(*filters)\
         .all()
 
     return all_earthquakes_to_schema(filtered_earthquakes)

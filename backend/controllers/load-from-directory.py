@@ -18,12 +18,14 @@ def load_earthquakes_from_downloaded_files(start_date: str, end_date: str):
         file_date = string_date_to_date(file_date)
 
         if start_date <= file_date <= end_date:
-            with open(f"../../downloaded_data/{file_date}.geojson", 'r', encoding="utf8") as f:
-                file = json.load(f)
-                resp = requests.post('http://127.0.0.1:8000/earthquake/', json=file)
-                print(resp.content)
-            return
+            try:
+                with open(f"../../downloaded_data/{file_date}.geojson", 'r', encoding="utf8") as f:
+                    file = json.load(f)
+                    resp = requests.post('http://127.0.0.1:8000/earthquake/', json=file)
+                    print(file_date, resp.content)
+            except Exception as e:
+                print(e)
 
 
 if __name__ == '__main__':
-    load_earthquakes_from_downloaded_files('2022-05-02', '2022-05-30')
+    load_earthquakes_from_downloaded_files('1995-01-27', '2023-03-21')
