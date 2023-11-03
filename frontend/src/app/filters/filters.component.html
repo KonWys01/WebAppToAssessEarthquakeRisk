@@ -1,9 +1,9 @@
 <div class="sidenav-with-button">
-  <mat-sidenav-container class="example-container" hasBackdrop="false" [ngStyle]="{width: !sidenav.opened ? '0px' : '450px'}">
+  <mat-sidenav-container class="main-sidenav-container" hasBackdrop="false" [ngStyle]="{width: !sidenav.opened ? '0px' : '700px'}">
 <!--    TODO set ngStyle to work only after 0.5sec - after animation is done (right now there is no animation -->
 <!--    TODO set button on the leftside of sidebar - problably on the div before sidenav so it wont cause problems wish sidenav's width -->
 
-    <mat-sidenav #sidenav mode="over" opened class="example-sidenav">
+    <mat-sidenav #sidenav mode="over" opened class="main-sidenav">
       <mat-toolbar>
         <span>Filters</span>
         <span class="example-spacer"></span>
@@ -54,21 +54,25 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
           <p>Set date range of earthquakes!</p>
-          <mat-form-field class="date-field">
-            <mat-label>Enter a date range</mat-label>
-            <mat-date-range-input [rangePicker]="rangePicker">
-              <input matStartDate [formControl]="$any(form).controls['date_start']" placeholder="Start date">
-              <input matEndDate [formControl]="$any(form).controls['date_end']" placeholder="End date">
-            </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
-            <mat-date-range-picker #rangePicker>
-              <mat-date-range-picker-actions>
-                <button mat-button matDateRangePickerCancel>Cancel</button>
-                <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
-              </mat-date-range-picker-actions>
-            </mat-date-range-picker>
-          </mat-form-field>
+          <mat-card>
+            <mat-card-content>
+              <mat-form-field class="date-field">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="rangePicker">
+                  <input matStartDate [formControl]="$any(form).controls['date_start']" placeholder="Start date">
+                  <input matEndDate [formControl]="$any(form).controls['date_end']" placeholder="End date">
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                <mat-date-range-picker #rangePicker>
+                  <mat-date-range-picker-actions>
+                    <button mat-button matDateRangePickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+                  </mat-date-range-picker-actions>
+                </mat-date-range-picker>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
         </mat-expansion-panel>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -76,34 +80,63 @@
               Area
             </mat-panel-title>
             <mat-panel-description>
-              Filter by rectangle using: <br>
-              x_min, x_max, y_min, y_max
-
+              Geographic area of earthquake
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <div class="coordinates">
-            <mat-form-field id="ymax">
-              <mat-label>Y_max</mat-label>
-              <input matInput>
-            </mat-form-field>
-            <div class="latitude">
-              <mat-form-field id="xmin">
-                <mat-label>X_min</mat-label>
-                <input matInput>
-              </mat-form-field>
-              <div class="map-picker" (click)="openDialog()">
-                <img src="assets/world-map-transparent.png" id="world-map" alt="world-map">
+          <p>Input coordinates of points or draw rectangle on the map!</p>
+          <mat-card class="coordinates">
+            <mat-card-content class="coordinates-content">
+              <div class="top-left">
+                <mat-form-field id="top_left_y">
+                  <mat-label>Top left Y</mat-label>
+                  <input matInput>
+                </mat-form-field>
+                <mat-form-field id="top_left_x">
+                  <mat-label>Top left X</mat-label>
+                  <input matInput>
+                </mat-form-field>
               </div>
-              <mat-form-field id="xmax">
-                <mat-label>X_max</mat-label>
-                <input matInput>
-              </mat-form-field>
-            </div>
-            <mat-form-field id="ymin">
-              <mat-label>Y_min</mat-label>
-              <input matInput>
-            </mat-form-field>
-          </div>
+              <div class="top-right">
+                <mat-form-field id="top_right_y">
+                  <mat-label>Top right Y</mat-label>
+                  <input matInput>
+                </mat-form-field>
+                <mat-form-field id="top_right_x">
+                  <mat-label>Top right X</mat-label>
+                  <input matInput>
+                </mat-form-field>
+              </div>
+              <mat-card class="map-picker" (click)="openDialog()">
+                <mat-card-content>
+                  <img src="assets/world-map-transparent.png" id="world-map" alt="world-map">
+                </mat-card-content>
+              </mat-card>
+<!--              <div class="map-picker" (click)="openDialog()">-->
+<!--&lt;!&ndash;              <div class="map-picker" (click)="openDialog()">&ndash;&gt;-->
+<!--                -->
+<!--              </div>-->
+              <div class="bottom-right">
+                <mat-form-field id="bottom_right_y">
+                  <mat-label>Bottom right Y</mat-label>
+                  <input matInput>
+                </mat-form-field>
+                <mat-form-field id="bottom_right_x">
+                  <mat-label>Bottom right X</mat-label>
+                  <input matInput>
+                </mat-form-field>
+              </div>
+              <div class="bottom-left">
+                <mat-form-field id="bottom_left_y">
+                  <mat-label>Bottom left Y</mat-label>
+                  <input matInput>
+                </mat-form-field>
+                <mat-form-field id="bottom_left_x">
+                  <mat-label>Bottom left x</mat-label>
+                  <input matInput>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </mat-expansion-panel>
         <button class="open-filter" mat-button (click)="sidenav.toggle()">
           <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>

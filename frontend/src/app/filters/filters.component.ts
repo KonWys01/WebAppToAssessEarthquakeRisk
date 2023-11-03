@@ -23,8 +23,15 @@ export class FiltersComponent implements AfterViewInit {
       magnitude_max: new FormControl(10),
       date_start: new FormControl(''),
       date_end: new FormControl(''),
-      tsunami: new FormControl(''),
-      area: new FormControl(''),
+      top_left_y: new FormControl(0),
+      top_left_x: new FormControl(0),
+      top_right_y: new FormControl(0),
+      top_right_x: new FormControl(0),
+      bottom_right_y: new FormControl(0),
+      bottom_right_x: new FormControl(0),
+      bottom_left_y: new FormControl(0),
+      bottom_left_x: new FormControl(0),
+      type: new FormControl(''),
     });
   }
 

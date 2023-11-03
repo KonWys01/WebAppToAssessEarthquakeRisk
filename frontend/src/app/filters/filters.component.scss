@@ -10,17 +10,17 @@
   margin-left: 8px;
 }
 
-.example-container {
+.main-sidenav-container {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  width: 450px;
+  width: 700px;
   float: left;
 }
 
-.example-sidenav {
+.main-sidenav {
   width: 100%;
   display: flex;
   align-items: center;
@@ -63,9 +63,46 @@
 
 .coordinates {
   border-radius: 10px;
-  border: 2px solid black;
   padding: 15px;
-  height: 200px;
+  height: 400px;
+  display: block;
+  position: relative;
+
+  ::ng-deep .mat-mdc-form-field-bottom-align {
+    display: none;
+  }
+}
+
+.top-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 15px;
+  padding-left: 15px;
+}
+
+.top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-top: 15px;
+  padding-right: 15px;
+}
+
+.bottom-right {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-bottom: 15px;
+  padding-right: 15px;
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding-bottom: 15px;
+  padding-left: 15px;
 }
 
 #ymax {
@@ -95,17 +132,15 @@
 }
 
 .map-picker {
-  border-radius: 10px;
-  border: 2px solid black;
   position: absolute;
-  top: 47%;
-  left: 37.5%;
+  top: 20%;
+  left: 22.5%;
   overflow: hidden;
   cursor: pointer;
 }
 
 #world-map {
-  height: 65px;
+  height: 200px;
 }
 
 .example-spacer {
