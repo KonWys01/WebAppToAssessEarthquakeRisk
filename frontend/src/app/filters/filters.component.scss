@@ -173,10 +173,9 @@
   width: 95px;
 }
 
-.date-field {
+.full-field {
   width: 100%;
 }
-
 
 .id-field {
   width: 100%;
@@ -197,4 +196,14 @@
 
 .label-max {
   float: left;
+}
+
+.submit-panel {
+  ::ng-deep .mat-expansion-panel-header-title {
+    color: rgba(0,0,0,.87);
+  }
+
+  ::ng-deep .mat-expansion-panel-header-description {
+    color: rgba(0,0,0,.54);
+  }
 }

@@ -12,8 +12,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class FiltersComponent implements AfterViewInit {
   @Input() hasBackdrop: any;
-  panelOpenState = false;
+  step: number = 0;
   form: FormGroup;
+  types: string[] = ['earthquake', 'blast'];
 
   id: string;
 
@@ -39,6 +40,10 @@ export class FiltersComponent implements AfterViewInit {
     this.form.valueChanges.subscribe((_) => {
       console.log(this.form.get('magnitude_min')!.value);
     });
+  }
+
+  setStep(index: number) {
+    this.step = index;
   }
 
   openDialog(): void {
