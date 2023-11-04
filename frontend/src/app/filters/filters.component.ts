@@ -1,9 +1,12 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
 
+import * as moment from 'moment';
+
 import { CoordinatePickerDialogComponent } from './coordinate-picker-dialog/coordinate-picker-dialog.component';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Filters } from '../models/earthquake.model';
 
 @Component({
   selector: 'app-filters',
@@ -14,25 +17,25 @@ export class FiltersComponent implements AfterViewInit {
   @Input() hasBackdrop: any;
   step: number = 0;
   form: FormGroup;
-  types: string[] = ['earthquake', 'blast'];
+  types: string[] = ['earthquake', 'quarry blast'];
 
   id: string;
 
   constructor(public dialog: MatDialog) {
     this.form = new FormGroup({
-      magnitude_min: new FormControl(''),
-      magnitude_max: new FormControl(''),
-      date_start: new FormControl(''),
-      date_end: new FormControl(''),
-      top_left_lat: new FormControl(''),
-      top_left_lng: new FormControl(''),
-      top_right_lat: new FormControl(''),
-      top_right_lng: new FormControl(''),
-      bottom_right_lat: new FormControl(''),
-      bottom_right_lng: new FormControl(''),
-      bottom_left_lat: new FormControl(''),
-      bottom_left_lng: new FormControl(''),
-      type: new FormControl(''),
+      magnitude_min: new FormControl(null),
+      magnitude_max: new FormControl(null),
+      date_start: new FormControl(null),
+      date_end: new FormControl(null),
+      top_left_lat: new FormControl(null),
+      top_left_lng: new FormControl(null),
+      top_right_lat: new FormControl(null),
+      top_right_lng: new FormControl(null),
+      bottom_right_lat: new FormControl(null),
+      bottom_right_lng: new FormControl(null),
+      bottom_left_lat: new FormControl(null),
+      bottom_left_lng: new FormControl(null),
+      type: new FormControl(null),
     });
   }
 
@@ -75,5 +78,57 @@ export class FiltersComponent implements AfterViewInit {
     }
 
     return `${value}`;
+  }
+
+  reset(): void {
+    this.form.reset();
+  }
+
+  submit(): void {
+    const filters: Filters = {};
+    if (this.form.get('magnitude_min')?.value) {
+      filters['mag_min'] = this.form.get('magnitude_min')?.value;
+    }
+    if (this.form.get('magnitude_max')?.value) {
+      filters['mag_max'] = this.form.get('magnitude_max')?.value;
+    }
+    if (this.form.get('date_start')?.value) {
+      filters['date_start'] = moment(this.form.get('date_start')?.value).format(
+        'YYYY-MM-DD'
+      );
+    }
+    if (this.form.get('date_end')?.value) {
+      filters['date_end'] = moment(this.form.get('date_end')?.value).format(
+        'YYYY-MM-DD'
+      );
+    }
+    if (this.form.get('type')?.value) {
+      filters['type'] = this.form.get('type')?.value;
+    }
+    if (this.form.get('top_left_lat')?.value) {
+      filters['coordinates'] = [
+        [
+          this.form.get('top_left_lat')?.value,
+          this.form.get('top_left_lng')?.value,
+        ],
+        [
+          this.form.get('top_right_lat')?.value,
+          this.form.get('top_right_lng')?.value,
+        ],
+        [
+          this.form.get('bottom_right_lat')?.value,
+          this.form.get('bottom_right_lng')?.value,
+        ],
+        [
+          this.form.get('bottom_left_lat')?.value,
+          this.form.get('bottom_left_lng')?.value,
+        ],
+        [
+          this.form.get('top_left_lat')?.value,
+          this.form.get('top_left_lng')?.value,
+        ],
+      ];
+    }
+    console.log(filters);
   }
 }
