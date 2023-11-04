@@ -1,6 +1,6 @@
 <div class="main">
-  <div class="filters">
-    <app-filters (filterTransfer)="filters=$event"></app-filters>
+  <div class="filters" [style.height]="sidenavOpened === 'open' ? '100%' : '45px' ">
+    <app-filters (filterTransfer)="filters=$event" (sidenavOpenWidth)="sidenavOpened=$event"></app-filters>
   </div>
   <div class="map">
     <app-earthquake-map [filtersTransfered]="filters"></app-earthquake-map>

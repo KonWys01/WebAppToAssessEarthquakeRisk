@@ -1,9 +1,15 @@
 <div class="sidenav-with-button">
-  <mat-sidenav-container class="main-sidenav-container" hasBackdrop="false" [ngStyle]="{width: !sidenav.opened ? '0px' : '700px'}">
-<!--    TODO set ngStyle to work only after 0.5sec - after animation is done (right now there is no animation -->
-<!--    TODO set button on the leftside of sidebar - problably on the div before sidenav so it wont cause problems wish sidenav's width -->
-
-    <mat-sidenav #sidenav mode="over" opened class="main-sidenav">
+  <mat-sidenav-container
+    class="main-sidenav-container"
+    hasBackdrop="false"
+    [ngClass]="{'main-sidenav-container': sidenav.opened, 'main-sidenav-container-closed' : !sidenav.opened }">
+    <mat-sidenav
+      #sidenav
+      mode="over"
+      opened
+      class="main-sidenav"
+      (closed)="sidenavOpenWidth.emit('closed')"
+      (openedStart)="sidenavOpenWidth.emit('open')">
       <mat-toolbar>
         <span>Filters</span>
         <span class="spacer"></span>
@@ -13,7 +19,7 @@
         </button>
       </mat-toolbar>
       <mat-accordion multi>
-        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true" >
+        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Magnitude:
@@ -42,7 +48,7 @@
             </mat-card-content>
           </mat-card>
         </mat-expansion-panel>
-        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true" >
+        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Date range:
@@ -74,7 +80,7 @@
             </mat-card-content>
           </mat-card>
         </mat-expansion-panel>
-        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true" >
+        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Area
@@ -106,7 +112,8 @@
                   <input [formControl]="$any(form).controls['top_right_lng']" matInput>
                 </mat-form-field>
               </div>
-              <mat-card class="map-picker" (click)="openDialog()" [ngStyle]="{'top': allEightCoordinates() ? '20%' : '18.2%'}">
+              <mat-card class="map-picker" (click)="openDialog()"
+                        [ngStyle]="{'top': allEightCoordinates() ? '20%' : '18.2%'}">
                 <mat-card-content>
                   <img src="assets/world-map-transparent.png" id="world-map" alt="world-map">
                 </mat-card-content>
@@ -114,7 +121,7 @@
               <div class="bottom-right" [ngStyle]="{'bottom': allEightCoordinates() ? '0' : '40px'}">
                 <mat-form-field id="bottom_right_y">
                   <mat-label>Bottom right lat.</mat-label>
-                  <input [formControl]="$any(form).controls['bottom_right_lat']"  matInput>
+                  <input [formControl]="$any(form).controls['bottom_right_lat']" matInput>
                 </mat-form-field>
                 <mat-form-field id="bottom_right_x">
                   <mat-label>Bottom right long.</mat-label>
@@ -137,7 +144,7 @@
             </mat-card-content>
           </mat-card>
         </mat-expansion-panel>
-        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true" >
+        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Type:
@@ -189,8 +196,12 @@
       </mat-accordion>
     </mat-sidenav>
   </mat-sidenav-container>
-  <button mat-icon-button (click)="sidenav.toggle()">
-    <mat-icon *ngIf="sidenav.opened" style="color: black">keyboard_arrow_left</mat-icon>
-    <mat-icon *ngIf="!sidenav.opened" style="color: black">keyboard_arrow_right</mat-icon>
-  </button>
 </div>
+<mat-toolbar class="closed-toolbar">
+  <span>Filters</span>
+  <span class="spacer"></span>
+  <button class="close" mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon *ngIf="sidenav.opened">keyboard_arrow_left</mat-icon>
+    <mat-icon *ngIf="!sidenav.opened">keyboard_arrow_right</mat-icon>
+  </button>
+</mat-toolbar>

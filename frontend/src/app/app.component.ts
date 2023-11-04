@@ -9,4 +9,5 @@ import { Filters } from './models/earthquake.model';
 export class AppComponent {
   title = 'frontend';
   filters: Filters;
+  sidenavOpened: string;
 }

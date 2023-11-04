@@ -35,6 +35,7 @@ export class FiltersComponent implements OnInit, AfterViewInit {
   loading: boolean = true;
   formValid: boolean = false;
   @Output() filterTransfer: EventEmitter<Filters> = new EventEmitter();
+  @Output() sidenavOpenWidth: EventEmitter<string> = new EventEmitter();
 
   constructor(
     public dialog: MatDialog,

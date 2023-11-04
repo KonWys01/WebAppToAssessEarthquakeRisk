@@ -16,6 +16,22 @@
   float: left;
 }
 
+.main-sidenav-container-closed {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  float: left;
+
+  -webkit-transition: width 1s ease-in-out;
+  -moz-transition: width 1s ease-in-out;
+  -o-transition: width 1s ease-in-out;
+  transition: width 1s ease-in-out;
+
+  width:0;
+}
+
 .main-sidenav {
   width: 100%;
   display: flex;
@@ -186,3 +202,6 @@
   }
 }
 
+.closed-toolbar {
+  border-radius: 15px;
+}
