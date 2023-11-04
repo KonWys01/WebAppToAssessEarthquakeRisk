@@ -1,0 +1,10 @@
+<div *ngIf="!isLoaded">
+  <h3>Earthquakes are being loaded</h3>
+  <mat-progress-bar class="loading" mode="buffer" [bufferValue]="0"></mat-progress-bar>
+</div>
+<div *ngIf="isLoaded">
+  <h3>All Earthquakes are loaded</h3>
+  <mat-progress-bar [value]="proggresValue"></mat-progress-bar>
+</div>
+
+

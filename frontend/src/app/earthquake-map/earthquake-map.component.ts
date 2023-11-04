@@ -7,6 +7,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 
@@ -16,6 +18,8 @@ import {
   Filters,
   ResponseModelEarthquakeFiltered,
 } from '../models/earthquake.model';
+import { LoadingNotificationComponent } from '../filters/loading-notification/loading-notification.component';
+import { SnackbarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-earthquake-map',
@@ -32,7 +36,11 @@ export class EarthquakeMapComponent
   earthquakesFiltered: EarthquakesFiltered[];
   @Input() filtersTransfered: Filters;
 
-  constructor(private earthquakeService: EarthquakeService) {}
+  constructor(
+    private earthquakeService: EarthquakeService,
+    private snackBar: MatSnackBar,
+    private snackbarService: SnackbarService
+  ) {}
 
   ngOnInit() {
     this.getEarthquakes({ date_start: '1995-03-01', date_end: '1995-03-31' });
@@ -45,11 +53,16 @@ export class EarthquakeMapComponent
   }
 
   getEarthquakes(filters: Filters): void {
+    this.snackBar.openFromComponent(LoadingNotificationComponent);
     this.earthquakeService
       .getAllEarthquakes(filters)
       .subscribe((data: ResponseModelEarthquakeFiltered) => {
         this.earthquakesFiltered = data.data;
         this.addEarthquakes();
+        this.snackbarService.updateSnackbarContent('loaded');
+        setTimeout(() => {
+          this.snackBar.dismiss();
+        }, 2000);
       });
   }
 

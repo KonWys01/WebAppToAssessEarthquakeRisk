@@ -1,0 +1,7 @@
+.loading {
+  width: 100%;
+  transform: rotate(180deg);
+  ::ng-deep .mdc-linear-progress__buffer-dots {
+    background-color: #673ab7 !important;
+  }
+}

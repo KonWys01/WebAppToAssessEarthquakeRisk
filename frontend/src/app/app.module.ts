@@ -20,6 +20,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
@@ -30,6 +32,7 @@ import { EarthquakeMapComponent } from './earthquake-map/earthquake-map.componen
 import { FiltersComponent } from './filters/filters.component';
 import { CoordinatePickerDialogComponent } from './filters/coordinate-picker-dialog/coordinate-picker-dialog.component';
 import { ConfigService } from './services/config.service';
+import { LoadingNotificationComponent } from './filters/loading-notification/loading-notification.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,7 @@ import { ConfigService } from './services/config.service';
     EarthquakeMapComponent,
     FiltersComponent,
     CoordinatePickerDialogComponent,
+    LoadingNotificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +67,9 @@ import { ConfigService } from './services/config.service';
     HttpClientModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
+    BrowserAnimationsModule,
+    MatProgressBarModule,
   ],
   providers: [
     {
