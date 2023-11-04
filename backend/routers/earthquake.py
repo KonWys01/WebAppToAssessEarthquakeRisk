@@ -4,13 +4,14 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 
 from database_postgis.database import SessionLocal
-from database_postgis.schemas import Geojson, GeojsonSingle, ResponseModel, ResponseModelNoCount
+from database_postgis.schemas import Geojson, GeojsonSingle, ResponseModel, ResponseModelNoCount, TypeResponseModel
 from database_postgis.crud import \
     add_single_earthquake, \
     add_multiple_earthquakes, \
     get_single_earthquake, \
     get_multiple_earthquakes, \
-    delete_earthquake
+    delete_earthquake, \
+    get_types
 
 earthquake_router = APIRouter(
     prefix='/earthquake',
@@ -115,3 +116,12 @@ async def remove_earthquake(id: int, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND
         )
 
+
+@earthquake_router.get("/types/", response_model=TypeResponseModel)
+async def get_all_types(db: Session = Depends(get_db)):
+    crud_data = get_types(db=db)
+    return TypeResponseModel(
+        data=crud_data,
+        status_code=status.HTTP_200_OK,
+        count=len(crud_data)
+    )

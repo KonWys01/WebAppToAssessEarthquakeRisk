@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Text
 from datetime import date
 
 from geojson_pydantic.geometries import Point
@@ -124,4 +124,10 @@ class ResponseModelNoCount(BaseModel):
 
 
 class ResponseModel(ResponseModelNoCount):
+    count: int
+
+
+class TypeResponseModel(BaseModel):
+    data: List[Text]
+    status_code: int
     count: int

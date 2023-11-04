@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Text
 import ast
 
 from sqlalchemy.orm import Session
@@ -166,3 +166,8 @@ def delete_earthquake(db: Session, id: int) -> int:
     delete_query = db.query(models.Earthquake).filter(models.Earthquake.id == id).delete()
     db.commit()
     return delete_query
+
+
+def get_types(db: Session) -> List[Text]:
+    query = db.query(models.Earthquake.type).distinct(models.Earthquake.type)
+    return db.scalars(query).all()
