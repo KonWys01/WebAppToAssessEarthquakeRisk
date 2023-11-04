@@ -119,33 +119,7 @@
   left: 33%;
   padding-bottom: 15px;
   padding-left: 15px;
-  color: red;
-}
-
-#ymax {
-  position: absolute;
-  right: 39%;
-}
-
-#xmin {
-  position: absolute;
-  top: 50%;
-}
-
-#xmax {
-  position: absolute;
-  top: 50%;
-  right: 10%;
-}
-
-#ymin {
-  position: absolute;
-  right: 39%;
-  bottom: 3%;
-}
-
-.latitude {
-  justify-content: space-between;
+  color: var(--mdc-theme-error, #f44336);
 }
 
 .map-picker {
@@ -154,6 +128,10 @@
   left: 22.5%;
   overflow: hidden;
   cursor: pointer;
+}
+
+.latitude {
+  justify-content: space-between;
 }
 
 #world-map {

@@ -84,7 +84,7 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
           <p>Input coordinates of points or draw rectangle on the map!</p>
-          <mat-card class="coordinates">
+          <mat-card class="coordinates" [ngStyle]="{'height': allEightCoordinates() ? '400px' : '440px'}">
             <mat-card-content class="coordinates-content">
               <div class="top-left">
                 <mat-form-field id="top_left_y">
@@ -106,12 +106,12 @@
                   <input [formControl]="$any(form).controls['top_right_lng']" matInput>
                 </mat-form-field>
               </div>
-              <mat-card class="map-picker" (click)="openDialog()">
+              <mat-card class="map-picker" (click)="openDialog()" [ngStyle]="{'top': allEightCoordinates() ? '20%' : '18.2%'}">
                 <mat-card-content>
                   <img src="assets/world-map-transparent.png" id="world-map" alt="world-map">
                 </mat-card-content>
               </mat-card>
-              <div class="bottom-right">
+              <div class="bottom-right" [ngStyle]="{'bottom': allEightCoordinates() ? '0' : '40px'}">
                 <mat-form-field id="bottom_right_y">
                   <mat-label>Bottom right lat.</mat-label>
                   <input [formControl]="$any(form).controls['bottom_right_lat']"  matInput>
@@ -121,7 +121,7 @@
                   <input [formControl]="$any(form).controls['bottom_right_lng']" matInput>
                 </mat-form-field>
               </div>
-              <div class="bottom-left">
+              <div class="bottom-left" [ngStyle]="{'bottom': allEightCoordinates() ? '0' : '40px'}">
                 <mat-form-field id="bottom_left_y">
                   <mat-label>Bottom left lat.</mat-label>
                   <input [formControl]="$any(form).controls['bottom_left_lat']" matInput>
@@ -176,7 +176,7 @@
               Submit the form
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <p>Click Submit to submit the form!</p>
+          <p>Click Apply to submit the form!</p>
           <mat-card>
             <mat-card-content>
               <mat-card-actions align="end">
