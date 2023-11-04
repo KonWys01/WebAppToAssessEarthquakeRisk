@@ -68,8 +68,6 @@ export class FiltersComponent implements OnInit, AfterViewInit {
       });
       localValid = this.allEightCoordinates() ? localValid : false;
       this.formValid = this.form.valid ? localValid : false;
-
-      console.log(this.allEightCoordinates());
     });
   }
 
@@ -161,7 +159,6 @@ export class FiltersComponent implements OnInit, AfterViewInit {
         ],
       ];
     }
-    console.log(filters);
   }
 
   numberValidator(): ValidatorFn {

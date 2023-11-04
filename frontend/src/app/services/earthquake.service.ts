@@ -21,12 +21,12 @@ export class EarthquakeService {
   ): Observable<ResponseModelEarthquakeFiltered> {
     let params: string = '';
     if (filters) {
+      if (filters['coordinates']) {
+        filters['coordinates'] = JSON.stringify(filters['coordinates']);
+      }
       // @ts-ignore
       params = new HttpParams({ fromObject: filters }).toString();
     }
-    console.log(
-      this.configService.apiBaseUrl + this.configService.apiEarthquake
-    );
     return this.http.get<ResponseModelEarthquakeFiltered>(
       this.configService.apiBaseUrl +
         this.configService.apiEarthquake +

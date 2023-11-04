@@ -25,7 +25,6 @@ export class EarthquakeMapComponent implements AfterViewInit, OnInit {
       .getAllEarthquakes({ date_start: '1995-03-01', date_end: '1995-03-31' })
       .subscribe((data: ResponseModelEarthquakeFiltered) => {
         this.earthquakesFiltered = data.data;
-        console.log('earthquake filtered', data);
         this.addEarthquakes();
       });
   }

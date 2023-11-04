@@ -89,7 +89,7 @@ export interface Filters {
   mag_max?: number | null;
   date_start?: string | null;
   date_end?: string | null;
-  coordinates?: [number, number][] | null;
+  coordinates?: [number, number][] | null | string;
   type?: string | null;
 }
 
