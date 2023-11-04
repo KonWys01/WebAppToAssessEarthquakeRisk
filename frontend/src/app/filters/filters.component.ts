@@ -144,24 +144,24 @@ export class FiltersComponent implements OnInit, AfterViewInit {
     if (this.form.get('top_left_lat')?.value) {
       filters['coordinates'] = [
         [
-          this.form.get('top_left_lat')?.value,
           this.form.get('top_left_lng')?.value,
+          this.form.get('top_left_lat')?.value,
         ],
         [
-          this.form.get('top_right_lat')?.value,
           this.form.get('top_right_lng')?.value,
+          this.form.get('top_right_lat')?.value,
         ],
         [
-          this.form.get('bottom_right_lat')?.value,
           this.form.get('bottom_right_lng')?.value,
+          this.form.get('bottom_right_lat')?.value,
         ],
         [
-          this.form.get('bottom_left_lat')?.value,
           this.form.get('bottom_left_lng')?.value,
+          this.form.get('bottom_left_lat')?.value,
         ],
         [
-          this.form.get('top_left_lat')?.value,
           this.form.get('top_left_lng')?.value,
+          this.form.get('top_left_lat')?.value,
         ],
       ];
     }
