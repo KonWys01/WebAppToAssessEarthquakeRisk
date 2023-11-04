@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -27,8 +34,7 @@ export class FiltersComponent implements OnInit, AfterViewInit {
   types: string[];
   loading: boolean = true;
   formValid: boolean = false;
-
-  id: string;
+  @Output() filterTransfer: EventEmitter<Filters> = new EventEmitter();
 
   constructor(
     public dialog: MatDialog,
@@ -159,6 +165,7 @@ export class FiltersComponent implements OnInit, AfterViewInit {
         ],
       ];
     }
+    this.filterTransfer.emit(filters);
   }
 
   numberValidator(): ValidatorFn {
