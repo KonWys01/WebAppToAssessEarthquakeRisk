@@ -1,5 +1,6 @@
 {
   "baseUrl": "http://127.0.0.1:8000/",
   "earthquake": "earthquake/",
+  "types": "types/",
   "docs": "docs/"
 }

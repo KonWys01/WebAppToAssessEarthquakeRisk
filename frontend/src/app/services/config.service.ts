@@ -24,4 +24,8 @@ export class ConfigService {
   get apiEarthquake(): string {
     return this.appConfig.earthquake;
   }
+
+  get apiTypes(): string {
+    return this.appConfig.types;
+  }
 }

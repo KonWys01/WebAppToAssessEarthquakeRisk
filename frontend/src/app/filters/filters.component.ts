@@ -1,5 +1,11 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -7,41 +13,63 @@ import * as moment from 'moment';
 
 import { CoordinatePickerDialogComponent } from './coordinate-picker-dialog/coordinate-picker-dialog.component';
 import { Filters } from '../models/earthquake.model';
+import { EarthquakeService } from '../services/earthquake.service';
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss'],
 })
-export class FiltersComponent implements AfterViewInit {
+export class FiltersComponent implements OnInit, AfterViewInit {
   @Input() hasBackdrop: any;
   step: number = 0;
   form: FormGroup;
-  types: string[] = ['earthquake', 'quarry blast'];
+  types: string[];
+  loading: boolean = true;
+  formValid: boolean = false;
 
   id: string;
 
-  constructor(public dialog: MatDialog) {
+  constructor(
+    public dialog: MatDialog,
+    private earthquakeService: EarthquakeService
+  ) {
     this.form = new FormGroup({
       magnitude_min: new FormControl(null),
       magnitude_max: new FormControl(null),
       date_start: new FormControl(null),
       date_end: new FormControl(null),
-      top_left_lat: new FormControl(null),
-      top_left_lng: new FormControl(null),
-      top_right_lat: new FormControl(null),
-      top_right_lng: new FormControl(null),
-      bottom_right_lat: new FormControl(null),
-      bottom_right_lng: new FormControl(null),
-      bottom_left_lat: new FormControl(null),
-      bottom_left_lng: new FormControl(null),
+      top_left_lat: new FormControl(null, [this.numberValidator()]),
+      top_left_lng: new FormControl(null, [this.numberValidator()]),
+      top_right_lat: new FormControl(null, [this.numberValidator()]),
+      top_right_lng: new FormControl(null, [this.numberValidator()]),
+      bottom_right_lat: new FormControl(null, [this.numberValidator()]),
+      bottom_right_lng: new FormControl(null, [this.numberValidator()]),
+      bottom_left_lat: new FormControl(null, [this.numberValidator()]),
+      bottom_left_lng: new FormControl(null, [this.numberValidator()]),
       type: new FormControl(null),
     });
   }
 
+  ngOnInit() {
+    this.earthquakeService.getAllTypes().subscribe((data) => {
+      this.types = data.data;
+      this.loading = false;
+    });
+  }
+
   ngAfterViewInit() {
-    this.form.valueChanges.subscribe((_) => {
-      console.log(this.form.get('magnitude_min')!.value);
+    this.form.valueChanges.subscribe((form) => {
+      let localValid: boolean = false;
+      Object.keys(form).forEach((key) => {
+        if (form[key] !== null && form[key] !== undefined) {
+          localValid = true;
+        }
+      });
+      localValid = this.allEightCoordinates() ? localValid : false;
+      this.formValid = this.form.valid ? localValid : false;
+
+      console.log(this.allEightCoordinates());
     });
   }
 
@@ -67,7 +95,6 @@ export class FiltersComponent implements AfterViewInit {
         this.form.get('bottom_right_lng')?.patchValue(res.coordinates.lng_max);
         this.form.get('bottom_left_lat')?.patchValue(res.coordinates.lat_min);
         this.form.get('bottom_left_lng')?.patchValue(res.coordinates.lng_min);
-        console.log(this.form.value);
       }
     });
   }
@@ -82,6 +109,11 @@ export class FiltersComponent implements AfterViewInit {
 
   reset(): void {
     this.form.reset();
+  }
+
+  clearDate() {
+    this.form.get('date_start')?.reset();
+    this.form.get('date_end')?.reset();
   }
 
   submit(): void {
@@ -130,5 +162,50 @@ export class FiltersComponent implements AfterViewInit {
       ];
     }
     console.log(filters);
+  }
+
+  numberValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value === null) {
+        return null;
+      }
+      if (control.value === '') {
+        control.patchValue(null);
+        return null;
+      }
+      if (!Number(control.value)) {
+        return { numberValidator: true };
+      }
+      return null;
+    };
+  }
+
+  allEightCoordinates(): boolean {
+    let hasValue: number = 0;
+    if (this.form.get('top_left_lat')?.value) {
+      hasValue += 1;
+    }
+    if (this.form.get('top_left_lng')?.value) {
+      hasValue += 1;
+    }
+    if (this.form.get('top_right_lat')?.value) {
+      hasValue += 1;
+    }
+    if (this.form.get('top_right_lng')?.value) {
+      hasValue += 1;
+    }
+    if (this.form.get('bottom_right_lat')?.value) {
+      hasValue += 1;
+    }
+    if (this.form.get('bottom_right_lng')?.value) {
+      hasValue += 1;
+    }
+    if (this.form.get('bottom_left_lat')?.value) {
+      hasValue += 1;
+    }
+    if (this.form.get('bottom_left_lng')?.value) {
+      hasValue += 1;
+    }
+    return hasValue === 0 || hasValue === 8;
   }
 }

@@ -64,13 +64,9 @@
 .coordinates {
   border-radius: 10px;
   padding: 15px;
-  height: 400px;
+  height: 440px;
   display: block;
   position: relative;
-
-  ::ng-deep .mat-mdc-form-field-bottom-align {
-    display: none;
-  }
 }
 
 .top-left {
@@ -79,6 +75,9 @@
   left: 0;
   padding-top: 15px;
   padding-left: 15px;
+  ::ng-deep .mat-mdc-form-field-bottom-align {
+    display: none;
+  }
 }
 
 .top-right {
@@ -87,22 +86,40 @@
   right: 0;
   padding-top: 15px;
   padding-right: 15px;
+  ::ng-deep .mat-mdc-form-field-bottom-align {
+    display: none;
+  }
 }
 
 .bottom-right {
   position: absolute;
-  bottom: 0;
+  bottom: 28px;
   right: 0;
   padding-bottom: 15px;
   padding-right: 15px;
+  ::ng-deep .mat-mdc-form-field-bottom-align {
+    display: none;
+  }
 }
 
 .bottom-left {
   position: absolute;
-  bottom: 0;
+  bottom: 28px;
   left: 0;
   padding-bottom: 15px;
   padding-left: 15px;
+  ::ng-deep .mat-mdc-form-field-bottom-align {
+    display: none;
+  }
+}
+
+.all-eight {
+  position: absolute;
+  bottom: 0;
+  left: 33%;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  color: red;
 }
 
 #ymax {
@@ -207,3 +224,12 @@
     color: rgba(0,0,0,.54);
   }
 }
+
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  > span {
+    flex: 1;
+  }
+}
+

@@ -72,6 +72,12 @@ export interface ResponseModel extends ResponseModelNoCount {
   count: number;
 }
 
+export interface TypesResponseModel {
+  data: string[];
+  status_code: number;
+  count: number;
+}
+
 export interface ResponseModelEarthquakeFiltered {
   data: EarthquakesFiltered[];
   status_code: number;
