@@ -25,6 +25,7 @@ import {
 import { LoadingNotificationComponent } from '../../filters/loading-notification/loading-notification.component';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { PopupInfoComponent } from '../popup-info/popup-info.component';
+import { ConfigService } from '../../../services/config.service';
 
 @Component({
   selector: 'app-earthquake-map',
@@ -43,6 +44,7 @@ export class EarthquakeMapComponent
 
   constructor(
     private earthquakeService: EarthquakeService,
+    private configService: ConfigService,
     private snackBar: MatSnackBar,
     private snackbarService: SnackbarService,
     private injector: Injector,
@@ -80,10 +82,12 @@ export class EarthquakeMapComponent
   }
 
   private initMap(): void {
+    const plates = this.configService.tectonicPlatesGeoJSON;
     this.map = L.map('map', {
       center: [39.8282, -98.5795],
       zoom: 3,
       zoomControl: false,
+      layers: [plates],
     });
 
     L.control
