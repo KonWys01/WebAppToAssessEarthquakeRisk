@@ -188,7 +188,7 @@
             <mat-card-content>
               <mat-card-actions align="end">
                 <button (click)="reset()" mat-button>Reset</button>
-                <button (click)="submit()" [disabled]="!formValid" mat-button>Apply</button>
+                <button (click)="submit(); sidenav.toggle()" [disabled]="!formValid" mat-button>Apply</button>
               </mat-card-actions>
             </mat-card-content>
           </mat-card>
