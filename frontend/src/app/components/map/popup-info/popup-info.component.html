@@ -1,3 +1,18 @@
-<p>popup-info works!</p>
-<h2>Siemanko</h2>
-<h3>ID: {{eqId}} </h3>
+<mat-card *ngIf="isLoaded" class="card">
+  <mat-card-content class="content">
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>ID</td>
+        <td>{{earthquake.id }}</td>
+      </tr>
+      <tr *ngFor="let key of keys">
+        <td>{{key}}</td>
+        <td>{{earthquake.properties[key] ? earthquake.properties[key] : '---' }}</td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

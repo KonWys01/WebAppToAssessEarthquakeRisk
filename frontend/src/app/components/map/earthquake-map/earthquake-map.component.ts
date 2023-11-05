@@ -52,10 +52,8 @@ export class EarthquakeMapComponent
 
   ngOnInit() {
     this.getEarthquakes({
-      mag_min: 4.1,
-      mag_max: 4.1,
       date_start: '1995-03-01',
-      date_end: '1995-03-01',
+      date_end: '1995-03-31',
     });
   }
 
@@ -66,7 +64,9 @@ export class EarthquakeMapComponent
   }
 
   getEarthquakes(filters: Filters): void {
-    this.snackBar.openFromComponent(LoadingNotificationComponent);
+    this.snackBar.openFromComponent(LoadingNotificationComponent, {
+      verticalPosition: 'top',
+    });
     this.earthquakeService
       .getAllEarthquakes(filters)
       .subscribe((data: ResponseModelEarthquakeFiltered) => {
@@ -123,7 +123,10 @@ export class EarthquakeMapComponent
           radius: this.circleSize(eq.mag as number),
         }
       );
-      marker.bindPopup((fl) => this.createPopupComponentWithMessage(eq.id));
+      marker.bindPopup((fl) => this.createPopupComponentWithMessage(eq.id), {
+        minWidth: 486,
+        maxWidth: 486,
+      });
       this.markers.addLayer(marker);
     });
     this.map.addLayer(this.markers);

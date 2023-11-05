@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import {
   Filters,
   ResponseModelEarthquakeFiltered,
+  ResponseModelSingleEarthquake,
   TypesResponseModel,
 } from '../models/earthquake.model';
 import { ConfigService } from './config.service';
@@ -32,6 +33,12 @@ export class EarthquakeService {
         this.configService.apiEarthquake +
         '?' +
         params
+    );
+  }
+
+  getSingleEarthquake(eqId: number): Observable<ResponseModelSingleEarthquake> {
+    return this.http.get<ResponseModelSingleEarthquake>(
+      this.configService.apiBaseUrl + this.configService.apiEarthquake + eqId
     );
   }
 

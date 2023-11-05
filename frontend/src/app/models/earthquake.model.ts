@@ -84,6 +84,12 @@ export interface ResponseModelEarthquakeFiltered {
   count: number;
 }
 
+export interface ResponseModelSingleEarthquake {
+  data: GeojsonSingle;
+  status_code: number;
+  count: number;
+}
+
 export interface Filters {
   mag_min?: number | null;
   mag_max?: number | null;
