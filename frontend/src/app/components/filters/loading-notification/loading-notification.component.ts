@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 
-import { SnackbarService } from '../../services/snackbar.service';
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-loading-notification',

@@ -12,14 +12,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { EarthquakeService } from '../services/earthquake.service';
+import { EarthquakeService } from '../../../services/earthquake.service';
 import {
   EarthquakesFiltered,
   Filters,
   ResponseModelEarthquakeFiltered,
-} from '../models/earthquake.model';
-import { LoadingNotificationComponent } from '../filters/loading-notification/loading-notification.component';
-import { SnackbarService } from '../services/snackbar.service';
+} from '../../../models/earthquake.model';
+import { LoadingNotificationComponent } from '../../filters/loading-notification/loading-notification.component';
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-earthquake-map',

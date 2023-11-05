@@ -28,11 +28,11 @@ import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluste
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EarthquakeMapComponent } from './earthquake-map/earthquake-map.component';
-import { FiltersComponent } from './filters/filters.component';
-import { CoordinatePickerDialogComponent } from './filters/coordinate-picker-dialog/coordinate-picker-dialog.component';
+import { EarthquakeMapComponent } from './components/map/earthquake-map/earthquake-map.component';
+import { FiltersComponent } from './components/filters/filters.component';
+import { CoordinatePickerDialogComponent } from './components/filters/coordinate-picker-dialog/coordinate-picker-dialog.component';
 import { ConfigService } from './services/config.service';
-import { LoadingNotificationComponent } from './filters/loading-notification/loading-notification.component';
+import { LoadingNotificationComponent } from './components/filters/loading-notification/loading-notification.component';
 
 @NgModule({
   declarations: [

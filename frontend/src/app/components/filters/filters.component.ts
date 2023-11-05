@@ -19,8 +19,8 @@ import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 
 import { CoordinatePickerDialogComponent } from './coordinate-picker-dialog/coordinate-picker-dialog.component';
-import { Filters } from '../models/earthquake.model';
-import { EarthquakeService } from '../services/earthquake.service';
+import { Filters } from '../../models/earthquake.model';
+import { EarthquakeService } from '../../services/earthquake.service';
 
 @Component({
   selector: 'app-filters',
