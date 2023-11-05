@@ -5,6 +5,10 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  createComponent,
+  Injector,
+  EnvironmentInjector,
+  ApplicationRef,
 } from '@angular/core';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,6 +24,7 @@ import {
 } from '../../../models/earthquake.model';
 import { LoadingNotificationComponent } from '../../filters/loading-notification/loading-notification.component';
 import { SnackbarService } from '../../../services/snackbar.service';
+import { PopupInfoComponent } from '../popup-info/popup-info.component';
 
 @Component({
   selector: 'app-earthquake-map',
@@ -39,11 +44,19 @@ export class EarthquakeMapComponent
   constructor(
     private earthquakeService: EarthquakeService,
     private snackBar: MatSnackBar,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private injector: Injector,
+    private environmentInjector: EnvironmentInjector,
+    private applicationRef: ApplicationRef
   ) {}
 
   ngOnInit() {
-    this.getEarthquakes({ date_start: '1995-03-01', date_end: '1995-03-31' });
+    this.getEarthquakes({
+      mag_min: 4.1,
+      mag_max: 4.1,
+      date_start: '1995-03-01',
+      date_end: '1995-03-01',
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -110,6 +123,7 @@ export class EarthquakeMapComponent
           radius: this.circleSize(eq.mag as number),
         }
       );
+      marker.bindPopup((fl) => this.createPopupComponentWithMessage(eq.id));
       this.markers.addLayer(marker);
     });
     this.map.addLayer(this.markers);
@@ -117,6 +131,18 @@ export class EarthquakeMapComponent
 
   ngAfterViewInit(): void {
     this.initMap();
+  }
+
+  createPopupComponentWithMessage(eqId: number): HTMLElement {
+    const element = document.createElement('div');
+    const component = createComponent(PopupInfoComponent, {
+      elementInjector: this.injector,
+      environmentInjector: this.environmentInjector,
+      hostElement: element,
+    });
+    this.applicationRef.attachView(component.hostView);
+    component.instance.eqId = eqId;
+    return element;
   }
 
   circleColor(depth: number): string {

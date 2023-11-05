@@ -33,6 +33,7 @@ import { FiltersComponent } from './components/filters/filters.component';
 import { CoordinatePickerDialogComponent } from './components/filters/coordinate-picker-dialog/coordinate-picker-dialog.component';
 import { ConfigService } from './services/config.service';
 import { LoadingNotificationComponent } from './components/filters/loading-notification/loading-notification.component';
+import { PopupInfoComponent } from './components/map/popup-info/popup-info.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { LoadingNotificationComponent } from './components/filters/loading-notif
     FiltersComponent,
     CoordinatePickerDialogComponent,
     LoadingNotificationComponent,
+    PopupInfoComponent,
   ],
   imports: [
     BrowserModule,
