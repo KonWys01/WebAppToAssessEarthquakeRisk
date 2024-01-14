@@ -81,6 +81,41 @@ export class EarthquakeMapComponent
       });
   }
 
+  ngAfterViewInit(): void {
+    this.initMap();
+  }
+
+  createPopupComponentWithMessage(eqId: number): HTMLElement {
+    const element = document.createElement('div');
+    const component = createComponent(PopupInfoComponent, {
+      elementInjector: this.injector,
+      environmentInjector: this.environmentInjector,
+      hostElement: element,
+    });
+    this.applicationRef.attachView(component.hostView);
+    component.instance.eqId = eqId;
+    return element;
+  }
+
+  circleColor(depth: number): string {
+    if (depth < 10) {
+      return '#FFEDA0';
+    } else if (depth < 30) {
+      return '#FEB24C';
+    } else if (depth < 50) {
+      return '#FD8D3C';
+    } else if (depth < 70) {
+      return '#E31A1C';
+    } else {
+      return '#570707';
+    }
+  }
+
+  circleSize(mag: number): number {
+    // return mag * 5;
+    return mag * 20000;
+  }
+
   private initMap(): void {
     const plates = this.configService.tectonicPlatesGeoJSON;
     this.map = L.map('map', {
@@ -134,40 +169,5 @@ export class EarthquakeMapComponent
       this.markers.addLayer(marker);
     });
     this.map.addLayer(this.markers);
-  }
-
-  ngAfterViewInit(): void {
-    this.initMap();
-  }
-
-  createPopupComponentWithMessage(eqId: number): HTMLElement {
-    const element = document.createElement('div');
-    const component = createComponent(PopupInfoComponent, {
-      elementInjector: this.injector,
-      environmentInjector: this.environmentInjector,
-      hostElement: element,
-    });
-    this.applicationRef.attachView(component.hostView);
-    component.instance.eqId = eqId;
-    return element;
-  }
-
-  circleColor(depth: number): string {
-    if (depth < 10) {
-      return '#FFEDA0';
-    } else if (depth < 30) {
-      return '#FEB24C';
-    } else if (depth < 50) {
-      return '#FD8D3C';
-    } else if (depth < 70) {
-      return '#E31A1C';
-    } else {
-      return '#570707';
-    }
-  }
-
-  circleSize(mag: number): number {
-    // return mag * 5;
-    return mag * 20000;
   }
 }

@@ -62,12 +62,14 @@ export interface EarthquakesFiltered {
   geometry: Point;
   id_geom: string;
   type: string;
+  time: number;
 }
 
 export interface ResponseModelNoCount {
   data: EarthquakesFiltered[] | GeojsonSingle | string;
   status_code: number;
 }
+
 export interface ResponseModel extends ResponseModelNoCount {
   count: number;
 }
