@@ -110,9 +110,12 @@ class GetAll(BaseModel):
     geometry: Point
     id_geom: str | None
     type: str | None
+    time: int | None
 
     @validator('geometry', pre=True, allow_reuse=True, always=True)
     def correct_geom_format(cls, v):
+        if isinstance(v, dict):
+            return Point(type=v['type'], coordinates=v['coordinates'])
         if not isinstance(v, WKBElement):
             raise ValueError('must be a valid WKBE element')
         return convert_to_point(v)

@@ -1,5 +1,4 @@
 import requests
-from time import sleep
 from datetime import timedelta, date, datetime
 import glob
 import os
@@ -32,9 +31,8 @@ def download_data(url: str):
             earthquake = requests.get(url + f'&starttime={single_date}&endtime={single_date + timedelta(1)}')
             print(f'earthquake for {single_date} was downloaded')
             data = earthquake.content
-            with open(f'downloaded_data/{single_date}.geojson', 'wb') as f:
+            with open(f'../../downloaded_data/{single_date}.geojson', 'wb') as f:
                 f.write(data)
-            sleep(10)
         except Exception as e:
             print(f'{single_date}', str(e))
             continue

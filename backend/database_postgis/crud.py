@@ -55,7 +55,7 @@ def add_multiple_earthquakes(db: Session, file: schemas.Geojson) -> int:
     # TODO add id field to model and then give its value in these two post requests
     earthquakes_to_add = []
     for eq in file.features:
-        db_item = models.Earthquake(**eq.properties.model_dump())
+        db_item = models.Earthquake(**eq.properties.__dict__)
         db_item.date = datetime.fromtimestamp(eq.properties.time // 1000)
 
         point = Point(eq.geometry.coordinates)
@@ -65,7 +65,10 @@ def add_multiple_earthquakes(db: Session, file: schemas.Geojson) -> int:
 
         earthquakes_to_add.append(db_item)
 
-    latest_earthquake_id = db.query(models.Earthquake).order_by(models.Earthquake.id.desc()).first().id
+    try:
+        latest_earthquake_id = db.query(models.Earthquake).order_by(models.Earthquake.id.desc()).first().id
+    except:
+        latest_earthquake_id = 0
 
     db.add_all(earthquakes_to_add)
     db.commit()
@@ -76,7 +79,7 @@ def add_multiple_earthquakes(db: Session, file: schemas.Geojson) -> int:
 
 
 def add_single_earthquake(db: Session, earthquake: schemas.GeojsonSingle) -> schemas.GeojsonSingle:
-    db_item = models.Earthquake(**earthquake.properties.model_dump())
+    db_item = models.Earthquake(**earthquake.properties.__dict__)
     db_item.date = datetime.fromtimestamp(earthquake.properties.time // 1000)
 
     point = Point(earthquake.geometry.coordinates)
@@ -107,7 +110,8 @@ def all_earthquakes_to_schema(filtered_earthquakes) -> List[schemas.GetAll]:
                 date=eq[2],
                 geometry=eq[3],
                 id_geom=eq[4],
-                type=eq[5]
+                type=eq[5],
+                time=eq[6],
             )
         )
     return eq_list
@@ -155,10 +159,10 @@ def get_multiple_earthquakes(
         models.Earthquake.date,
         models.Earthquake.geom,
         models.Earthquake.id_geom,
-        models.Earthquake.type) \
+        models.Earthquake.type,
+        models.Earthquake.time) \
         .filter(*filters)\
         .all()
-
     return all_earthquakes_to_schema(filtered_earthquakes)
 
 

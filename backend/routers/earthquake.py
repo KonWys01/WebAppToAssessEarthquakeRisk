@@ -63,7 +63,7 @@ async def add_earthquake(data: Geojson | GeojsonSingle | Any, db: Session = Depe
     """
 
     try:
-        eq_data = Geojson.model_validate(data)
+        eq_data = Geojson.validate(data)
         crud_data = add_multiple_earthquakes(db=db, file=eq_data)
         return ResponseModel(
             data="Added multiple earthquakes",
@@ -72,7 +72,7 @@ async def add_earthquake(data: Geojson | GeojsonSingle | Any, db: Session = Depe
         )
     except:
         try:
-            eq_data = GeojsonSingle.model_validate(data)
+            eq_data = GeojsonSingle.validate(data)
             crud_data = add_single_earthquake(db=db, earthquake=eq_data)
             return ResponseModel(
                 data=crud_data,

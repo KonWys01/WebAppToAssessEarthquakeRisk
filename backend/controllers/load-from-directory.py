@@ -21,10 +21,13 @@ def load_earthquakes_from_downloaded_files(start_date: str, end_date: str):
             try:
                 with open(f"../../downloaded_data/{file_date}.geojson", 'r', encoding="utf8") as f:
                     file = json.load(f)
-                    resp = requests.post('http://127.0.0.1:8000/earthquake/', json=file)
+                    resp = requests.post('http://127.0.0.1:9999/earthquake/', json=file)
                     print(file_date, resp.content)
             except Exception as e:
-                print(e)
+                print(f"failed at {file_date}")
+                with open(f"failed.txt", 'a') as f:
+                    x = f"{e=}, {file_date=}\n"
+                    f.write(x)
 
 
 if __name__ == '__main__':
