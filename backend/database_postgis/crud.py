@@ -80,8 +80,8 @@ def model_to_export_schema(eq: models.Earthquake) -> schemas.EarthquakeExport:
         magType=eq.magType,
         type=eq.type,
         title=eq.title,
-        lat=coordinates.x,
         lng=coordinates.y,
+        lat=coordinates.x,
         depth=coordinates.z,
     )
     return export_data

@@ -1,7 +1,10 @@
 from typing import Any, List
+from io import BytesIO
 
 import pandas as pd
+import geopandas as gpd
 from fastapi import APIRouter, Depends, status, HTTPException, Query
+from shapely.geometry import Point
 from sqlalchemy.orm import Session
 from starlette.responses import FileResponse, Response
 from openpyxl.utils.dataframe import dataframe_to_rows
@@ -131,6 +134,25 @@ async def get_all_types(db: Session = Depends(get_db)):
     )
 
 
+@earthquake_router.get("/geojson/")
+async def get_csv_data(db: Session = Depends(get_db), ids: List[int] = Query(None)):
+
+    crud_data = get_earthquakes_to_export(db=db, ids=ids)
+    items_dict = [item.dict() for item in crud_data]
+
+    df = pd.DataFrame(items_dict)
+    geometry = [Point(lon, lat, depth) for lon, lat, depth in zip(df['lng'], df['lat'], df['depth'])]
+
+    columns_to_drop = ['lng', 'lat', 'depth']
+    df = df.drop(columns=columns_to_drop)
+
+    gdf = gpd.GeoDataFrame(df, geometry=geometry)
+
+    response = Response(content=gdf.to_json())
+    response.headers["Content-Disposition"] = "attachment; filename=data.geojson"
+    response.headers["Content-Type"] = "application/json"
+    return response
+
 @earthquake_router.get("/csv/")
 async def get_csv_data(db: Session = Depends(get_db), ids: List[int] = Query(None)):
 
@@ -160,7 +182,6 @@ async def get_xlsx_data(db: Session = Depends(get_db), ids: List[int] = Query(No
     for r in dataframe_to_rows(df, index=False, header=True):
         ws.append(r)
 
-    from io import BytesIO
     xlsx_io = BytesIO()
     wb.save(xlsx_io)
     xlsx_io.seek(0)
@@ -170,6 +191,32 @@ async def get_xlsx_data(db: Session = Depends(get_db), ids: List[int] = Query(No
     response.headers["Content-Type"] = (
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+    return response
+
+
+def dataframe_to_xml(df):
+    xml = ['<root>']
+    for _, row in df.iterrows():
+        xml.append('<row>')
+        for col_name, col_value in row.items():
+            xml.append(f'<{col_name}>{col_value}</{col_name}>')
+        xml.append('</row>')
+    xml.append('</root>')
+    return '\n'.join(xml)
+
+
+@earthquake_router.get("/xml/")
+async def get_xlsx_data(db: Session = Depends(get_db), ids: List[int] = Query(None)):
+    crud_data = get_earthquakes_to_export(db=db, ids=ids)
+    items_dict = [item.dict() for item in crud_data]
+
+    df = pd.DataFrame(items_dict)
+    xml_data = dataframe_to_xml(df)
+
+    response = Response(xml_data)
+    response.headers["Content-Disposition"] = "attachment; filename=data.xml"
+    response.headers["Content-Type"] = "application/xml"
+
     return response
 
 

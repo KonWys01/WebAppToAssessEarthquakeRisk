@@ -122,8 +122,8 @@ class GetAll(BaseModel):
 
 
 class EarthquakeExport(PropertiesFile):
-    lat: float | None
     lng: float | None
+    lat: float | None
     depth: float | None
 
 
