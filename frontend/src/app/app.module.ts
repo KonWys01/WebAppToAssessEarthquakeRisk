@@ -34,6 +34,8 @@ import { CoordinatePickerDialogComponent } from './components/filters/coordinate
 import { ConfigService } from './services/config.service';
 import { LoadingNotificationComponent } from './components/filters/loading-notification/loading-notification.component';
 import { PopupInfoComponent } from './components/map/popup-info/popup-info.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { PopupInfoComponent } from './components/map/popup-info/popup-info.compo
     MatSnackBarModule,
     BrowserAnimationsModule,
     MatProgressBarModule,
+    MatTabsModule,
+    MatGridListModule,
   ],
   providers: [
     {

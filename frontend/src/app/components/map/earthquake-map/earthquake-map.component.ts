@@ -9,6 +9,8 @@ import {
   Injector,
   EnvironmentInjector,
   ApplicationRef,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -35,12 +37,13 @@ import { ConfigService } from '../../../services/config.service';
 export class EarthquakeMapComponent
   implements AfterViewInit, OnInit, OnChanges
 {
-  private map: any;
   markers = new L.MarkerClusterGroup({
     maxClusterRadius: 15,
   });
   earthquakesFiltered: EarthquakesFiltered[];
   @Input() filtersTransfered: Filters;
+  @Output() earthquakesIdsTransfer: EventEmitter<number[]> = new EventEmitter();
+  private map: any;
 
   constructor(
     private earthquakeService: EarthquakeService,
@@ -65,6 +68,10 @@ export class EarthquakeMapComponent
     }
   }
 
+  getIdsFromEarthquakes(): number[] {
+    return this.earthquakesFiltered.map((eq) => eq.id);
+  }
+
   getEarthquakes(filters: Filters): void {
     this.snackBar.openFromComponent(LoadingNotificationComponent, {
       verticalPosition: 'top',
@@ -74,6 +81,7 @@ export class EarthquakeMapComponent
       .subscribe((data: ResponseModelEarthquakeFiltered) => {
         this.earthquakesFiltered = data.data;
         this.addEarthquakes();
+        this.earthquakesIdsTransfer.emit(this.getIdsFromEarthquakes());
         this.snackbarService.updateSnackbarContent('loaded');
         setTimeout(() => {
           this.snackBar.dismiss();
@@ -145,21 +153,49 @@ export class EarthquakeMapComponent
     tiles.addTo(this.map);
   }
 
+  private getMarkerIcon(mag: number): L.Icon {
+    let icon: L.Icon;
+    if (mag < 2) {
+      icon = new L.Icon({
+        iconUrl: '../../../../assets/marker-yellow.svg',
+        iconSize: [38, 95],
+      });
+    } else if (mag < 4) {
+      icon = new L.Icon({
+        iconUrl: '../../../../assets/marker-orange.svg',
+        iconSize: [38, 95],
+      });
+    } else if (mag < 6) {
+      icon = new L.Icon({
+        iconUrl: '../../../../assets/marker-dark-orange.svg',
+        iconSize: [38, 95],
+      });
+    } else if (mag < 8) {
+      icon = new L.Icon({
+        iconUrl: '../../../../assets/marker-red.svg',
+        iconSize: [38, 95],
+      });
+    } else {
+      icon = new L.Icon({
+        iconUrl: '../../../../assets/marker-dark-red.svg',
+        iconSize: [38, 95],
+      });
+    }
+    return icon;
+  }
+
   private addEarthquakes(): void {
     if (this.markers) {
       this.markers.clearLayers();
     }
     this.earthquakesFiltered.forEach((eq: EarthquakesFiltered): void => {
-      const marker = L.circle(
+      const marker = L.marker(
         [
           eq.geometry.coordinates[1] as number,
           eq.geometry.coordinates[0] as number,
         ],
         {
-          stroke: false,
-          fillOpacity: 0.8,
-          fillColor: this.circleColor(eq.geometry.coordinates[2] as number),
-          radius: this.circleSize(eq.mag as number),
+          icon: this.getMarkerIcon(eq.mag),
         }
       );
       marker.bindPopup((fl) => this.createPopupComponentWithMessage(eq.id), {

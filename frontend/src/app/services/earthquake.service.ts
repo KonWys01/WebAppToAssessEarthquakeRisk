@@ -49,4 +49,20 @@ export class EarthquakeService {
         this.configService.apiTypes
     );
   }
+
+  exportEarthquakes(ids: number[], type: string) {
+    let queryParams = ids.map((id) => `ids=${id}`).join('&');
+    let url = this.configService.apiBaseUrl + this.configService.apiEarthquake;
+    if (type === 'csv') {
+      url = url + this.configService.export_csv;
+    } else if (type === 'geojson') {
+      url = url + this.configService.export_geojson;
+    } else if (type === 'xlsx') {
+      url = url + this.configService.export_xlsx;
+    } else {
+      url = url + this.configService.export_xml;
+    }
+    url = url + '?' + queryParams;
+    window.open(url, '_blank');
+  }
 }

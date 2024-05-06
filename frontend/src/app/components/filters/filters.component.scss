@@ -34,7 +34,7 @@
   -o-transition: width 0.15s ease-in-out;
   transition: width 0.15s ease-in-out;
 
-  width:0;
+  width: 0;
 }
 
 .main-sidenav {
@@ -88,6 +88,7 @@
 
 .coordinates-form-field {
   position: absolute;
+
   ::ng-deep .mat-mdc-form-field-bottom-align {
     display: none;
   }
@@ -191,17 +192,18 @@
 
 .submit-panel {
   ::ng-deep .mat-expansion-panel-header-title {
-    color: rgba(0,0,0,.87);
+    color: rgba(0, 0, 0, .87);
   }
 
   ::ng-deep .mat-expansion-panel-header-description {
-    color: rgba(0,0,0,.54);
+    color: rgba(0, 0, 0, .54);
   }
 }
 
 .loading-spinner {
   display: flex;
   align-items: center;
+
   > span {
     flex: 1;
   }
@@ -209,4 +211,38 @@
 
 .closed-toolbar {
   border-radius: 15px;
+}
+
+::ng-deep .mat-mdc-tab-label-container {
+  background-color: white;
+}
+
+::ng-deep .mat-drawer-container {
+  background-color: transparent !important;
+}
+
+::ng-deep .mat-mdc-raised-button {
+  height: 100% !important;
+  width: 100%;
+
+  .mat-icon {
+    font-size: 90px !important;
+    height: 50% !important;
+    width: 100% !important;
+  }
+}
+
+.button-with-icon {
+  display: flex !important;
+  flex-direction: column !important;
+  background-color: #673ab7 !important;
+
+  .mat-icon {
+    margin-right: 0 !important;
+
+  }
+}
+
+.custom-icon.mat-icon {
+  color: white !important;
 }

@@ -34,6 +34,7 @@ export class FiltersComponent implements OnInit, AfterViewInit {
   types: string[];
   loading: boolean = true;
   formValid: boolean = false;
+  @Input() earthquakeIds: number[];
   @Output() filterTransfer: EventEmitter<Filters> = new EventEmitter();
   @Output() sidenavOpenWidth: EventEmitter<string> = new EventEmitter();
 
@@ -76,6 +77,10 @@ export class FiltersComponent implements OnInit, AfterViewInit {
       localValid = this.allEightCoordinates() ? localValid : false;
       this.formValid = this.form.valid ? localValid : false;
     });
+  }
+
+  exportEarthquakes(type: string) {
+    this.earthquakeService.exportEarthquakes(this.earthquakeIds, type);
   }
 
   setStep(index: number) {
