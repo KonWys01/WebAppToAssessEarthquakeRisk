@@ -3,7 +3,7 @@ from typing import List, Text
 import ast
 
 from sqlalchemy.orm import Session
-from geoalchemy2.shape import from_shape
+from geoalchemy2.shape import from_shape, to_shape
 from geoalchemy2 import functions
 from shapely.geometry import Point
 
@@ -49,6 +49,42 @@ def model_to_schema(eq: models.Earthquake) -> schemas.GeojsonSingle:
         id=id_geom
     )
     return geojson_single
+
+
+def model_to_export_schema(eq: models.Earthquake) -> schemas.EarthquakeExport:
+    coordinates = to_shape(eq.geom)
+    export_data = schemas.EarthquakeExport(
+        mag=eq.mag,
+        place=eq.place,
+        time=eq.time,
+        updated=eq.updated,
+        tz=eq.tz,
+        url=eq.url,
+        detail=eq.detail,
+        felt=eq.felt,
+        cdi=eq.cdi,
+        mmi=eq.mmi,
+        alert=eq.alert,
+        status=eq.status,
+        tsunami=eq.tsunami,
+        sig=eq.sig,
+        net=eq.net,
+        code=eq.code,
+        ids=eq.ids,
+        sources=eq.sources,
+        types=eq.types,
+        nst=eq.nst,
+        dmin=eq.dmin,
+        rms=eq.rms,
+        gap=eq.gap,
+        magType=eq.magType,
+        type=eq.type,
+        title=eq.title,
+        lat=coordinates.x,
+        lng=coordinates.y,
+        depth=coordinates.z,
+    )
+    return export_data
 
 
 def add_multiple_earthquakes(db: Session, file: schemas.Geojson) -> int:
@@ -99,6 +135,15 @@ def add_single_earthquake(db: Session, earthquake: schemas.GeojsonSingle) -> sch
 def get_single_earthquake(db: Session, id: int) -> schemas.GeojsonSingle:
     return model_to_schema(db.query(models.Earthquake).filter(models.Earthquake.id == id).first())
 
+
+def get_earthquakes_to_export(db: Session, ids: List[int]):
+    filtered_earthquakes = db.query(models.Earthquake).filter(models.Earthquake.id.in_(ids)).all()
+    eq_list = []
+    for eq in filtered_earthquakes:
+        eq_list.append(
+            model_to_export_schema(eq)
+        )
+    return eq_list
 
 def all_earthquakes_to_schema(filtered_earthquakes) -> List[schemas.GetAll]:
     eq_list = []

@@ -1,7 +1,11 @@
-from typing import Any
+from typing import Any, List
 
-from fastapi import APIRouter, Depends, status, HTTPException
+import pandas as pd
+from fastapi import APIRouter, Depends, status, HTTPException, Query
 from sqlalchemy.orm import Session
+from starlette.responses import FileResponse, Response
+from openpyxl.utils.dataframe import dataframe_to_rows
+from openpyxl import Workbook
 
 from database_postgis.database import SessionLocal
 from database_postgis.schemas import Geojson, GeojsonSingle, ResponseModel, ResponseModelNoCount, TypeResponseModel
@@ -11,7 +15,7 @@ from database_postgis.crud import \
     get_single_earthquake, \
     get_multiple_earthquakes, \
     delete_earthquake, \
-    get_types
+    get_types, get_earthquakes_to_export
 
 earthquake_router = APIRouter(
     prefix='/earthquake',
@@ -125,3 +129,50 @@ async def get_all_types(db: Session = Depends(get_db)):
         status_code=status.HTTP_200_OK,
         count=len(crud_data)
     )
+
+
+@earthquake_router.get("/csv/")
+async def get_csv_data(db: Session = Depends(get_db), ids: List[int] = Query(None)):
+
+    crud_data = get_earthquakes_to_export(db=db, ids=ids)
+    items_dict = [item.dict() for item in crud_data]
+
+    df = pd.DataFrame(items_dict)
+
+    csv_data = df.to_csv(index=False)
+
+    response = Response(content=csv_data)
+    response.headers["Content-Disposition"] = "attachment; filename=data.csv"
+    response.headers["Content-Type"] = "text/csv"
+    return response
+
+
+@earthquake_router.get("/xlsx/")
+async def get_xlsx_data(db: Session = Depends(get_db), ids: List[int] = Query(None)):
+    crud_data = get_earthquakes_to_export(db=db, ids=ids)
+    items_dict = [item.dict() for item in crud_data]
+
+    df = pd.DataFrame(items_dict)
+
+    wb = Workbook()
+    ws = wb.active
+
+    for r in dataframe_to_rows(df, index=False, header=True):
+        ws.append(r)
+
+    from io import BytesIO
+    xlsx_io = BytesIO()
+    wb.save(xlsx_io)
+    xlsx_io.seek(0)
+
+    response = Response(content=xlsx_io.getvalue())
+    response.headers["Content-Disposition"] = "attachment; filename=data.xlsx"
+    response.headers["Content-Type"] = (
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    return response
+
+
+@earthquake_router.get("/picture/")
+def image_endpoint():
+    return FileResponse("C:\\Users\\sirko\\PycharmProjects\\stock\\src\\assets\\backtrader.png")

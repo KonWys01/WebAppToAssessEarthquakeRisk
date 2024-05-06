@@ -121,6 +121,12 @@ class GetAll(BaseModel):
         return convert_to_point(v)
 
 
+class EarthquakeExport(PropertiesFile):
+    lat: float | None
+    lng: float | None
+    depth: float | None
+
+
 class ResponseModelNoCount(BaseModel):
     data: List[GetAll] | GeojsonSingle | str
     status_code: int
