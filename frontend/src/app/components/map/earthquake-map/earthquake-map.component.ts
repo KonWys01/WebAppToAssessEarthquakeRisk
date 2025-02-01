@@ -38,7 +38,7 @@ export class EarthquakeMapComponent
   implements AfterViewInit, OnInit, OnChanges
 {
   markers = new L.MarkerClusterGroup({
-    maxClusterRadius: 15,
+    maxClusterRadius: 25,
   });
   earthquakesFiltered: EarthquakesFiltered[];
   @Input() filtersTransfered: Filters;
@@ -56,10 +56,6 @@ export class EarthquakeMapComponent
   ) {}
 
   ngOnInit() {
-    this.getEarthquakes({
-      date_start: '1995-03-01',
-      date_end: '1995-03-31',
-    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -140,7 +136,6 @@ export class EarthquakeMapComponent
       .addTo(this.map);
 
     const tiles = L.tileLayer(
-      // 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
       {
         maxZoom: 18,

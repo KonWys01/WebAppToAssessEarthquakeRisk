@@ -1,0 +1,44 @@
+.table {
+  height: 400px;
+  overflow-y: auto;
+  
+  // Make the scrollbar appear on the right
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+}
+
+.mat-mdc-table {
+  width: 100%;
+  max-height: 400px;
+}
+
+// Fix header row to stay visible while scrolling
+::ng-deep .mat-mdc-table thead {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+.content {
+  overflow: hidden;
+}
+
+.popup-height {
+  height: 400px !important;
+}
+
+.leaflet-popup-content-wrapper {
+  height: 400px !important;
+  overflow-y: auto;
+}

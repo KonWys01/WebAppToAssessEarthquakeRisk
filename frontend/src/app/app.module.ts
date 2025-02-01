@@ -22,6 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {MatTableModule} from '@angular/material/table';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
@@ -36,6 +37,8 @@ import { LoadingNotificationComponent } from './components/filters/loading-notif
 import { PopupInfoComponent } from './components/map/popup-info/popup-info.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { PredictionMapComponent } from './components/prediction-map/prediction-map.component';
+import { PopupPolygonComponent } from './components/prediction-map/popup-polygon/popup-polygon.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     CoordinatePickerDialogComponent,
     LoadingNotificationComponent,
     PopupInfoComponent,
+    PredictionMapComponent,
+    PopupPolygonComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +81,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatProgressBarModule,
     MatTabsModule,
     MatGridListModule,
+    MatTableModule,
   ],
   providers: [
     {

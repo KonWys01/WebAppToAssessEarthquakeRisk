@@ -1,11 +1,17 @@
 <div class="main">
   <div [style.height]="sidenavOpened === 'open' ? '100%' : '45px' " class="filters">
-    <app-filters (filterTransfer)="filters=$event" (sidenavOpenWidth)="sidenavOpened=$event"
-                 [earthquakeIds]="earthquakeIds"></app-filters>
+    <app-filters 
+      (filterTransfer)="filters=$event"
+      (sidenavOpenWidth)="sidenavOpened=$event"
+      (predictionMapSwitch)="predictionMapSwitch=$event"
+      [earthquakeIds]="earthquakeIds">
+    </app-filters>
   </div>
   <div class="map">
-    <app-earthquake-map (earthquakesIdsTransfer)="earthquakeIds=$event"
+    <app-earthquake-map [hidden]="predictionMapSwitch" 
+                        (earthquakesIdsTransfer)="earthquakeIds=$event"
                         [filtersTransfered]="filters"></app-earthquake-map>
+    <app-prediction-map *ngIf="predictionMapSwitch" ></app-prediction-map>
   </div>
 </div>
 

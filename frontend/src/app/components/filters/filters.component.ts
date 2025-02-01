@@ -37,6 +37,7 @@ export class FiltersComponent implements OnInit, AfterViewInit {
   @Input() earthquakeIds: number[];
   @Output() filterTransfer: EventEmitter<Filters> = new EventEmitter();
   @Output() sidenavOpenWidth: EventEmitter<string> = new EventEmitter();
+  @Output() predictionMapSwitch: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
     public dialog: MatDialog,
@@ -217,5 +218,14 @@ export class FiltersComponent implements OnInit, AfterViewInit {
       hasValue += 1;
     }
     return hasValue === 0 || hasValue === 8;
+  }
+
+  changeMapClick(index: number): void {
+    if (index == 0) {
+      this.predictionMapSwitch.emit(false);
+    }
+    else {
+      this.predictionMapSwitch.emit(true);
+    }
   }
 }

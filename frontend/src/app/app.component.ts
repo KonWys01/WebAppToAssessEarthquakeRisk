@@ -13,6 +13,7 @@ export class AppComponent {
   filters: Filters;
   sidenavOpened: string;
   earthquakeIds: number[];
+  predictionMapSwitch: boolean = false;
 
   constructor(
     private matIconRegistry: MatIconRegistry,
