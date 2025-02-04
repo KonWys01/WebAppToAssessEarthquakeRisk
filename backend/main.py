@@ -3,6 +3,7 @@ import uvicorn
 from starlette.middleware.cors import CORSMiddleware
 
 from routers.earthquake import earthquake_router
+from routers.ml import machinelearning_router
 from database_postgis.models import Base
 from database_postgis.database import engine
 
@@ -10,6 +11,7 @@ from database_postgis.database import engine
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
 app.include_router(earthquake_router)
+app.include_router(machinelearning_router)
 origins = [
     "http://localhost:4200",
 ]
@@ -29,5 +31,6 @@ async def default():
 
 
 if __name__ == "__main__":
-    uvicorn.run('main:app', host="127.0.0.1", port=9999, reload=True)
+    # uvicorn.run('main:app', host="127.0.0.1", port=9999, reload=True)
     # uvicorn.run('main:app', host="127.0.0.1", port=9999, workers=2)
+    uvicorn.run('main:app', host="127.0.0.1", port=9999, workers=5)

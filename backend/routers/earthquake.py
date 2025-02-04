@@ -35,6 +35,10 @@ def get_db():
         db.close()
 
 
+@earthquake_router.get("/ml/{id}")
+async def get_prediction_per_polygon():
+    return None
+
 @earthquake_router.get("/", response_model=ResponseModel)
 async def get_all_earthquakes(
         mag_min: float = None,
@@ -135,7 +139,7 @@ async def get_all_types(db: Session = Depends(get_db)):
 
 
 @earthquake_router.get("/geojson/")
-async def get_csv_data(db: Session = Depends(get_db), ids: List[int] = Query(None)):
+async def get_geojson_data(db: Session = Depends(get_db), ids: List[int] = Query(None)):
 
     crud_data = get_earthquakes_to_export(db=db, ids=ids)
     items_dict = [item.dict() for item in crud_data]
@@ -206,7 +210,7 @@ def dataframe_to_xml(df):
 
 
 @earthquake_router.get("/xml/")
-async def get_xlsx_data(db: Session = Depends(get_db), ids: List[int] = Query(None)):
+async def get_xml_data(db: Session = Depends(get_db), ids: List[int] = Query(None)):
     crud_data = get_earthquakes_to_export(db=db, ids=ids)
     items_dict = [item.dict() for item in crud_data]
 
