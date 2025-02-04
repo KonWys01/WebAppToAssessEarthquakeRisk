@@ -2,7 +2,12 @@ venv
 .idea
 
 downloaded_data/
+backend/__pycache__
+backend/database_postgis/__pycache__
+backend/machine_learning/.ipynb_checkpoints
+backend/routers/__pycache__
 
 frontend/.idea
 frontend/.vscode
 frontend/node_modules
+frontend/patches
